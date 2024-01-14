@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dev.higormorais.entities.Article;
 import dev.higormorais.entities.Course;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 
 import static dev.higormorais.repositories.utils.RepositoryUtils.createQueryUpdate;
@@ -19,19 +22,36 @@ import static dev.higormorais.repositories.utils.RepositoryUtils.insertPaginatio
 @ApplicationScoped
 public class CourseRepository implements PanacheRepositoryBase<Course, Integer> {
 
-    public List<Course> findBy(String courseName, String technologyName, Integer page, Integer size) {
+    @Inject
+    private EntityManager entityManager;
 
-        String queryJPQL = this.createQuery(courseName, technologyName);
+    public List<Course> findAll(int offset, int limit) {
 
-        Parameters parameters = Parameters
-                .with("courseName", "%" + courseName + "%")
-                .and("technologyName", technologyName);
+        limit = offset > limit ? (int) this.count() : limit;
 
-        PanacheQuery<Course> courses = this
-                .find(queryJPQL, Sort.by("importanceLevel"), parameters);
+        return entityManager.createQuery( "SELECT c FROM Course c ORDER BY c.importanceLevel DESC", Course.class)
+                .setFirstResult(Math.max(offset, 0))
+                .setMaxResults(Math.max(limit, 0))
+                .getResultList();
+    }
 
-        return insertPagination(courses, page, size);
+    public List<Course> findByName(String name) {
 
+        String jpql = "SELECT c FROM Course c WHERE lower(c.name) LIKE lower(concat('%', :partialName, '%'))";
+        Parameters nameParameter = Parameters.with("partialName", name);
+
+        return this.find(jpql, nameParameter).list();
+    }
+
+
+    public List<Course> findByTechnologyName(String technologyName) {
+
+        String jpql = "SELECT c FROM Course c " +
+                "JOIN c.technologies t " +
+                "WHERE lower(t.name) LIKE lower(:technologyName)";
+        Parameters nameParameter = Parameters.with("technologyName", "%" + technologyName + "%");
+
+        return this.find(jpql, nameParameter).list();
     }
 
     public void update(Course course) {

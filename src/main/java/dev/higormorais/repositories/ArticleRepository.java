@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import dev.higormorais.entities.Article;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 
 import static dev.higormorais.repositories.utils.RepositoryUtils.*;
@@ -18,11 +18,17 @@ import static dev.higormorais.repositories.utils.RepositoryUtils.*;
 @ApplicationScoped
 public class ArticleRepository implements PanacheRepositoryBase<Article, Integer> {
 
-    public List<Article> findAll(Integer page, Integer size) {
-//        PanacheQuery<Article> allArticles = this.findAll(Sort.by("date"));
+    @Inject
+    EntityManager entityManager;
 
-        return this.listAll();
+    public List<Article> findAll(int offset, int limit) {
 
+        limit = offset > limit ? (int) this.count() : limit;
+
+        return entityManager.createQuery( "SELECT a FROM Article a ORDER BY a.date DESC", Article.class)
+                .setFirstResult(Math.max(offset, 0))
+                .setMaxResults(Math.max(limit, 0))
+                .getResultList();
     }
 
     public List<Article> findByName(String nameArticle) {
