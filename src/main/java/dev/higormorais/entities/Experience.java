@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dev.higormorais.entities.builders.ExperienceBuilder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -103,6 +104,10 @@ public class Experience {
 
     public static List<String> attributesQuery() {
         return Arrays.asList("newCompanyName,newDescription,newBeginning,newEnd,experienceId".split(","));
+    }
+
+    public static ExperienceBuilder builder() {
+        return ExperienceBuilder.getInstance();
     }
 
 }
