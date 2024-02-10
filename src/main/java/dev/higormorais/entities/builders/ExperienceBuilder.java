@@ -57,8 +57,8 @@ public class ExperienceBuilder {
         return this;
     }
 
-    public ExperienceBuilder technologiesWorked(Technology... technologiesWorked) {
-        this.technologiesWorked = Arrays.asList(technologiesWorked);
+    public ExperienceBuilder technologiesWorked(List<Technology> technologiesWorked) {
+        this.technologiesWorked = technologiesWorked;
         return this;
     }
 

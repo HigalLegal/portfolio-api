@@ -46,7 +46,7 @@ public class TechnologyResponse {
         this.importanceLevel = importanceLevel;
     }
 
-    public TechnologyResponseAllBuilder builder() {
+    public static TechnologyResponseAllBuilder builder() {
         return TechnologyResponseAllBuilder.getInstance();
     }
 

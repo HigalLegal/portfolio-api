@@ -1,7 +1,6 @@
 package dev.higormorais.dto.responses;
 
 import dev.higormorais.dto.responses.builders.ProjectResponseBuilder;
-import dev.higormorais.entities.Project;
 
 import java.util.ArrayList;
 import java.util.List;

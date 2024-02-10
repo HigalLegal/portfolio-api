@@ -11,8 +11,6 @@ public class ProjectRequest {
 
     private String urlRepository;
 
-    private String urlImage;
-
     private int importanceLevel;
 
     private List<Integer> technologiesWorkedId = new ArrayList<>();
@@ -33,14 +31,6 @@ public class ProjectRequest {
 
     public void setUrlRepository(String urlRepository) {
         this.urlRepository = urlRepository;
-    }
-
-    public String getUrlImage() {
-        return urlImage;
-    }
-
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
     }
 
     public int getImportanceLevel() {

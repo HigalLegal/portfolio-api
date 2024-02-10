@@ -57,8 +57,8 @@ public class ProjectBuilder {
         return this;
     }
 
-    public ProjectBuilder technologiesWorked(Technology... technologiesWorked) {
-        this.technologiesWorked.addAll(Arrays.asList(technologiesWorked));
+    public ProjectBuilder technologiesWorked(List<Technology> technologiesWorked) {
+        this.technologiesWorked.addAll(technologiesWorked);
         return this;
     }
 
