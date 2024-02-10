@@ -5,7 +5,7 @@ import dev.higormorais.dto.requests.builders.TechnologyRequestBuilder;
 public class TechnologyRequest {
 
     private String name;
-    
+
     private int importanceLevel;
 
     // ----------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ public class TechnologyRequest {
         this.importanceLevel = importanceLevel;
     }
 
-    public TechnologyRequestBuilder build() {
+    public static TechnologyRequestBuilder build() {
         return TechnologyRequestBuilder.getInstance();
     }
 }

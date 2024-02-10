@@ -2,7 +2,6 @@ package dev.higormorais.dto.requests;
 
 
 import dev.higormorais.dto.requests.builders.ArticleRequestBuilder;
-import dev.higormorais.dto.responses.TechnologyResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

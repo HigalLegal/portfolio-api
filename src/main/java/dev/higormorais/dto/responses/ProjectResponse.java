@@ -1,11 +1,14 @@
-package dev.higormorais.dto.requests;
+package dev.higormorais.dto.responses;
 
-import dev.higormorais.dto.requests.builders.ProjectRequestBuilder;
+import dev.higormorais.dto.responses.builders.ProjectResponseBuilder;
+import dev.higormorais.entities.Project;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRequest {
+public class ProjectResponse {
+
+    private Integer id;
 
     private String description;
 
@@ -15,9 +18,17 @@ public class ProjectRequest {
 
     private int importanceLevel;
 
-    private List<Integer> technologiesWorkedId = new ArrayList<>();
+    private List<String> technologiesWorked = new ArrayList<>();
 
-    // -------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;
@@ -51,16 +62,16 @@ public class ProjectRequest {
         this.importanceLevel = importanceLevel;
     }
 
-    public List<Integer> getTechnologiesWorkedId() {
-        return technologiesWorkedId;
+    public List<String> getTechnologiesWorked() {
+        return technologiesWorked;
     }
 
-    public void setTechnologiesWorkedId(List<Integer> technologiesWorkedId) {
-        this.technologiesWorkedId = technologiesWorkedId;
+    public void setTechnologiesWorked(List<String> technologiesWorked) {
+        this.technologiesWorked = technologiesWorked;
     }
 
-    public static ProjectRequestBuilder builder() {
-        return ProjectRequestBuilder.getInstance();
+    public static ProjectResponseBuilder builder() {
+        return ProjectResponseBuilder.getInstance();
     }
 
 }

@@ -46,7 +46,7 @@ public class ProjectRequestBuilder {
         return this;
     }
 
-    public ProjectRequest builder() {
+    public ProjectRequest build() {
 
         var project = new ProjectRequest();
 
