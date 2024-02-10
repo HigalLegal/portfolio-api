@@ -58,8 +58,8 @@ public class CourseBuilder {
         return this;
     }
 
-    public CourseBuilder technologies(Technology... technologies) {
-        this.technologies.addAll(Arrays.asList(technologies));
+    public CourseBuilder technologies(List<Technology> technologies) {
+        this.technologies.addAll(technologies);
         return this;
     }
 

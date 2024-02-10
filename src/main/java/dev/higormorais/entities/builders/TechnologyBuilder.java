@@ -80,7 +80,7 @@ public class TechnologyBuilder {
         return this;
     }
 
-    public Technology builder() {
+    public Technology build() {
 
         var technology = new Technology();
 

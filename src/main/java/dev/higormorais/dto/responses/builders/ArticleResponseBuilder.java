@@ -29,6 +29,11 @@ public class ArticleResponseBuilder {
 
     // -------------------------------------------------------------------------------------------
 
+    public ArticleResponseBuilder id(Integer id) {
+        this.id = id;
+        return this;
+    }
+
     public ArticleResponseBuilder title(String title) {
         this.title = title;
         return this;

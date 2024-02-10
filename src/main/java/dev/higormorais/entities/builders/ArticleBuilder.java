@@ -58,8 +58,8 @@ public class ArticleBuilder {
         return this;
     }
 
-    public ArticleBuilder technologiesCovered(Technology... technologies) {
-        this.technologiesCovered.addAll(Arrays.asList(technologies));
+    public ArticleBuilder technologiesCovered(List<Technology> technologies) {
+        this.technologiesCovered.addAll(technologies);
         return this;
     }
 
