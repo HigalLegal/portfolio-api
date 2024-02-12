@@ -1,18 +1,17 @@
 package dev.higormorais.dto.mappers.impl;
 
-import dev.higormorais.dto.mappers.Mapper;
+import dev.higormorais.dto.mappers.CourseMapper;
 import dev.higormorais.dto.requests.CourseRequest;
 import dev.higormorais.dto.responses.CourseResponse;
 import dev.higormorais.entities.Course;
 import dev.higormorais.utils.Converter;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Named("course")
-public class CourseMapper implements Mapper<Course, CourseRequest, CourseResponse> {
+public class CourseMapperImpl implements CourseMapper {
+
     @Override
     public Course toEntitie(CourseRequest request) {
         return Course

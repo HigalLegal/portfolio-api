@@ -1,19 +1,18 @@
 package dev.higormorais.dto.mappers.impl;
 
-import dev.higormorais.dto.mappers.Mapper;
+import dev.higormorais.dto.mappers.ArticleMapper;
 import dev.higormorais.dto.requests.ArticleRequest;
 import dev.higormorais.dto.responses.ArticleResponse;
 import dev.higormorais.entities.Article;
 import dev.higormorais.utils.Converter;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Named("article")
-public class ArticleMapper implements Mapper<Article, ArticleRequest, ArticleResponse> {
+public class ArticleMapperImpl implements ArticleMapper {
+
     @Override
     public Article toEntitie(ArticleRequest request) {
         return Article

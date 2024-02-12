@@ -1,19 +1,17 @@
 package dev.higormorais.dto.mappers.impl;
 
-import dev.higormorais.dto.mappers.Mapper;
+import dev.higormorais.dto.mappers.ExperienceMapper;
 import dev.higormorais.dto.requests.ExperienceRequest;
 import dev.higormorais.dto.responses.ExperienceResponse;
 import dev.higormorais.entities.Experience;
 import dev.higormorais.utils.Converter;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Named("experience")
-public class ExperienceMapper implements Mapper<Experience, ExperienceRequest, ExperienceResponse> {
+public class ExperienceMapperImpl implements ExperienceMapper {
 
     @Override
     public Experience toEntitie(ExperienceRequest request) {

@@ -1,15 +1,15 @@
 package dev.higormorais.dto.mappers.impl;
 
-import dev.higormorais.dto.mappers.Mapper;
+import dev.higormorais.dto.mappers.TechnologyMapper;
 import dev.higormorais.dto.requests.TechnologyRequest;
 import dev.higormorais.dto.responses.TechnologyResponse;
 import dev.higormorais.entities.Technology;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
+
 
 @ApplicationScoped
-@Named("technology")
-public class TechnologyMapper implements Mapper<Technology, TechnologyRequest, TechnologyResponse> {
+public class TechnologyMapperImpl implements TechnologyMapper {
+
     @Override
     public Technology toEntitie(TechnologyRequest request) {
         return Technology

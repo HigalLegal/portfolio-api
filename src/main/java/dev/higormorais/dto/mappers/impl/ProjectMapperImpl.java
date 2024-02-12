@@ -1,18 +1,16 @@
 package dev.higormorais.dto.mappers.impl;
 
-import dev.higormorais.dto.mappers.Mapper;
+import dev.higormorais.dto.mappers.ProjectMapper;
 import dev.higormorais.dto.requests.ProjectRequest;
 import dev.higormorais.dto.responses.ProjectResponse;
 import dev.higormorais.entities.Project;
 import dev.higormorais.utils.Converter;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-@Named("project")
-public class ProjectMapper implements Mapper<Project, ProjectRequest, ProjectResponse> {
+public class ProjectMapperImpl implements ProjectMapper {
 
     @Override
     public Project toEntitie(ProjectRequest request) {
