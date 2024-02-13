@@ -1,11 +1,16 @@
 package dev.higormorais.dto.requests;
 
 import dev.higormorais.dto.requests.builders.TechnologyRequestBuilder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class TechnologyRequest {
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String name;
 
+    @NotNull(message = "{validation.message.notNull}")
     private int importanceLevel;
 
     // ----------------------------------------------------------------------------------

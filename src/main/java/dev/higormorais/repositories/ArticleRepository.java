@@ -11,6 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import static dev.higormorais.repositories.utils.RepositoryUtils.*;
 
@@ -20,6 +21,10 @@ public class ArticleRepository implements PanacheRepositoryBase<Article, Integer
 
     @Inject
     EntityManager entityManager;
+
+    @Inject
+    @ConfigProperty(name = "registro.inexistente")
+    private String messageNotFound;
 
     public List<Article> findAll(int offset, int limit) {
 
@@ -56,7 +61,7 @@ public class ArticleRepository implements PanacheRepositoryBase<Article, Integer
         int rowsAffected =  this.update(queryJPQL, queryParameters);
 
         if(rowsAffected == 0) {
-            throw new EntityNotFoundException("Registro de artigo inexistente.");
+            throw new EntityNotFoundException(messageNotFound);
         }
     }
 

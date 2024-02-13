@@ -1,6 +1,10 @@
 package dev.higormorais.dto.requests;
 
 import dev.higormorais.dto.requests.builders.ExperienceRequestBuilder;
+import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,14 +12,24 @@ import java.util.List;
 
 public class ExperienceRequest {
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String companyName;
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String description;
 
+    @NotNull(message = "{validation.message.notNull}")
+    @Past(message = "{validation.message.past}")
+    @JsonbDateFormat("dd/MM/yyyy")
     private LocalDate beginning;
 
+    @Past(message = "{validation.message.past}")
+    @JsonbDateFormat("dd/MM/yyyy")
     private LocalDate end;
 
+    @NotNull(message = "{validation.message.notNull}")
     private List<Integer> technologiesWorkedId = new ArrayList<>();
 
     // ---------------------------------------------------------------------------------------

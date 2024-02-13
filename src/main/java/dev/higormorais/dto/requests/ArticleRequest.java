@@ -2,6 +2,10 @@ package dev.higormorais.dto.requests;
 
 
 import dev.higormorais.dto.requests.builders.ArticleRequestBuilder;
+import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,14 +13,24 @@ import java.util.List;
 
 public class ArticleRequest {
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String title;
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String summary;
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String urlArticle;
 
+    @NotNull(message = "{validation.message.notNull}")
+    @Past(message = "{validation.message.past}")
+    @JsonbDateFormat("dd/MM/yyyy")
     private LocalDate date;
 
+    @NotNull(message = "{validation.message.notNull}")
     private List<Integer> technologiesCoveredId = new ArrayList<>();
 
     // ----------------------------------------------------------------------------------------------------

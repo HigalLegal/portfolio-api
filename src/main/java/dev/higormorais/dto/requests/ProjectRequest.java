@@ -1,18 +1,26 @@
 package dev.higormorais.dto.requests;
 
 import dev.higormorais.dto.requests.builders.ProjectRequestBuilder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRequest {
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String description;
 
+    @NotBlank(message = "{validation.message.notBlank}")
+    @NotNull(message = "{validation.message.notNull}")
     private String urlRepository;
 
+    @NotNull(message = "{validation.message.notNull}")
     private int importanceLevel;
 
+    @NotNull(message = "{validation.message.notNull}")
     private List<Integer> technologiesWorkedId = new ArrayList<>();
 
     // -------------------------------------------------------------------------

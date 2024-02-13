@@ -10,7 +10,7 @@ public interface CourseService {
 
     List<CourseResponse> listAll(int offset, int limit);
 
-    List<CourseResponse> listByName(String nameArticle);
+    List<CourseResponse> listByName(String name);
 
     List<CourseResponse> listByTechnology(String technology);
 
