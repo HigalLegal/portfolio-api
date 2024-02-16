@@ -2,9 +2,7 @@ package dev.higormorais.entities;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import dev.higormorais.entities.builders.ArticleBuilder;
 import jakarta.persistence.Column;
@@ -94,15 +92,24 @@ public class Article {
     }
 
     public List<Object> values() {
-        return Arrays.asList(title, summary, urlArticle, date, id);
+        return Arrays.asList(title, summary, urlArticle, date, technologiesCovered, id);
     }
 
-    public static List<String> namesAttributes() {
-        return Arrays.asList("title,summary,urlArticle,date,id".split(","));
+    public static List<String> attributes() {
+        return Arrays.asList("title,summary,urlArticle,date,technologiesCovered,id".split(","));
     }
 
-    public static List<String> namesQuery() {
-        return Arrays.asList("newTitle,newSummary,newUrlArticle,newDate,articleId".split(","));
+    public Map<String, Object> parametersValue() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<String> keys = Article.attributes();
+        List<Object> values = values();
+
+        for(int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        return map;
     }
 
     public static ArticleBuilder builder() {

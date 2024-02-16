@@ -1,9 +1,7 @@
 package dev.higormorais.entities;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import dev.higormorais.entities.builders.TechnologyBuilder;
 import jakarta.persistence.Column;
@@ -116,8 +114,17 @@ public class Technology {
         return Arrays.asList("name,urlImage,importanceLevel,id".split(","));
     }
 
-    public static List<String> attributesQuery() {
-        return Arrays.asList("newName,newUrlImage,newImportanceLevel,technologyId".split(","));
+    public Map<String, Object> parametersValue() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<String> keys = Technology.attributes();
+        List<Object> values = values();
+
+        for(int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        return map;
     }
 
     public static TechnologyBuilder builder() {

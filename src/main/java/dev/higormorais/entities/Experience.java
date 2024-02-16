@@ -2,9 +2,7 @@ package dev.higormorais.entities;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import dev.higormorais.entities.builders.ExperienceBuilder;
 import jakarta.persistence.Column;
@@ -16,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -95,15 +92,33 @@ public class Experience {
     }
 
     public List<Object> values() {
-        return Arrays.asList(companyName, description, beginning, end, id);
+        return Arrays.asList(companyName, description, beginning, end, technologiesWorked, id);
     }
 
     public static List<String> attributes() {
-        return Arrays.asList("companyName,description,beginning,end,id".split(","));
+        return Arrays.asList("companyName,description,beginning,end,technologiesWorked,id".split(","));
     }
 
-    public static List<String> attributesQuery() {
-        return Arrays.asList("newCompanyName,newDescription,newBeginning,newEnd,experienceId".split(","));
+    public Map<String, Object> parametersValue() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<String> keys = Experience.attributes();
+        List<Object> values = values();
+
+        for(int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        return map;
+    }
+
+    public boolean endIsAfterBeginning() {
+
+        if(end == null) {
+            return true;
+        }
+
+        return end.isAfter(beginning);
     }
 
     public static ExperienceBuilder builder() {

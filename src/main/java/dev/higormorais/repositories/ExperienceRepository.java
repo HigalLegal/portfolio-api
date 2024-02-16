@@ -1,21 +1,19 @@
 package dev.higormorais.repositories;
 
 
-import static dev.higormorais.repositories.utils.RepositoryUtils.createQueryUpdate;
+import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
+import static dev.higormorais.utils.GeneratedJPQL.mapToParameters;
 
 import java.util.List;
-import java.util.Map;
 
-import dev.higormorais.entities.Course;
 import dev.higormorais.entities.Experience;
+import dev.higormorais.exceptions.DateException;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
-import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Parameters;
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
 @ApplicationScoped
@@ -23,6 +21,10 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
 
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    @ConfigProperty(name = "registro.inexistente")
+    private String messageNotFound;
 
     public List<Experience> findAll(int offset, int limit) {
 
@@ -34,23 +36,26 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
                 .getResultList();
     }
 
-    public void update(Experience experience) {
-        Map<String, Parameters> query = createQueryUpdate(
-                Experience.class.getSimpleName(),
-                Experience.attributes(),
-                Experience.attributesQuery(),
-                experience.values(),
-                true
-        );
+    public void insert(Experience experience) {
 
-        String queryJPQL = query.keySet().stream().findFirst().get();
-        Parameters queryParameters = query.values().stream().findFirst().get();
-
-        int rowsAffected = this.update(queryJPQL, queryParameters);
-
-        if(rowsAffected == 0) {
-            throw new EntityNotFoundException("Registro de experiência inexistente.");
+        if(!experience.endIsAfterBeginning()) {
+            throw new DateException("A data de admissão não pode ser antes da saída!");
         }
+
+        persist(experience);
+    }
+
+    public void update(Experience experience) {
+
+        String jpql = "UPDATE Experience e SET e.companyName = :companyName, e.description = :description, " +
+                "e.beginning = :beginning, e.end = :end, e.technologiesWorked = :technologiesWorked WHERE e.id = :id";
+
+        Parameters parameters = mapToParameters(experience.parametersValue());
+
+        int rowsAffected = this.update(jpql, parameters);
+
+        throwExceptionNotFound(rowsAffected, messageNotFound);
+
     }
 
 }

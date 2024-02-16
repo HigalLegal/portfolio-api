@@ -2,16 +2,18 @@ package dev.higormorais.repositories;
 
 
 import java.util.List;
-import java.util.Map;
 
 import dev.higormorais.entities.Technology;
-import dev.higormorais.repositories.utils.RepositoryUtils;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
+import static dev.higormorais.utils.GeneratedJPQL.addQuery;
+import static dev.higormorais.utils.GeneratedJPQL.excludeImageIfNull;
 
 
 @ApplicationScoped
@@ -19,6 +21,10 @@ public class TechnologyRepository implements PanacheRepositoryBase<Technology, I
 
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    @ConfigProperty(name = "registro.inexistente")
+    private String messageNotFound;
 
     public List<Technology> findAll(int offset, int limit) {
 
@@ -31,22 +37,18 @@ public class TechnologyRepository implements PanacheRepositoryBase<Technology, I
     }
 
     public void update(Technology technology) {
-        Map<String, Parameters> query = RepositoryUtils.createQueryUpdate(
-                Technology.class.getSimpleName(),
-                Technology.attributes(),
-                Technology.attributesQuery(),
-                technology.values(),
-                false
-        );
 
-        String queryJPQL = query.keySet().stream().findFirst().get();
-        Parameters queryParameters = query.values().stream().findFirst().get();
+        String urlImageQuery = addQuery(technology.getUrlImage(), "p");
 
-        int rowsAffected = this.update(queryJPQL, queryParameters);
+        String jpql = "UPDATE Course c SET c.name = :name," + urlImageQuery + " c.urlCertificate = :urlCertificate, " +
+                "c.importanceLevel = :importanceLevel WHERE c.id = :id";
 
-        if(rowsAffected == 0) {
-            throw new EntityNotFoundException("Registro de tecnologia inexistente.");
-        }
+        Parameters parameters = excludeImageIfNull(technology.parametersValue(), technology.getUrlImage());
+
+        int rowsAffected = this.update(jpql, parameters);
+
+        throwExceptionNotFound(rowsAffected, messageNotFound);
+
     }
 
 }

@@ -15,5 +15,4 @@ public class InvalidKeyApiHandler implements ExceptionMapper<InvalidKeyApiExcept
                 .entity(error)
                 .build();
     }
-    }
 }

@@ -1,29 +1,27 @@
 package dev.higormorais.repositories;
 
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import dev.higormorais.entities.Article;
 import dev.higormorais.entities.Course;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import static dev.higormorais.repositories.utils.RepositoryUtils.createQueryUpdate;
-import static dev.higormorais.repositories.utils.RepositoryUtils.insertPagination;
+import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
+import static dev.higormorais.utils.GeneratedJPQL.*;
 
 @ApplicationScoped
 public class CourseRepository implements PanacheRepositoryBase<Course, Integer> {
 
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    @ConfigProperty(name = "registro.inexistente")
+    private String messageNotFound;
 
     public List<Course> findAll(int offset, int limit) {
 
@@ -56,39 +54,16 @@ public class CourseRepository implements PanacheRepositoryBase<Course, Integer> 
 
     public void update(Course course) {
 
-        Map<String, Parameters> query = createQueryUpdate(
-                Course.class.getSimpleName(),
-                Course.attributes(),
-                Course.attributesQuery(),
-                course.values(),
-                false
-        );
+        String urlImageQuery = addQuery(course.getUrlImage(), "c");
 
-        String queryJPQL = query.keySet().stream().findFirst().get();
-        Parameters queryParameters = query.values().stream().findFirst().get();
+        String jpql = "UPDATE Course c SET c.name = :name," + urlImageQuery + " c.urlCertificate = :urlCertificate, " +
+                "c.importanceLevel = :importanceLevel WHERE c.id = :id";
 
-        int rowsAffected = this.update(queryJPQL, queryParameters);
+        Parameters parameters = excludeImageIfNull(course.parametersValue(), course.getUrlImage());
 
-        if(rowsAffected == 0) {
-            throw new EntityNotFoundException("Registro de curso inexistente.");
-        }
+        int rowsAffected = this.update(jpql, parameters);
 
-
-    }
-
-    private String createQuery(String courseName, String technologyName) {
-
-        StringBuilder queryJPQL = new StringBuilder("SELECT c FROM Course c WHERE 1=1");
-
-        if(courseName != null) {
-            queryJPQL.append(" AND c.name LIKE :courseName");
-        } else if(technologyName != null) {
-            queryJPQL.append(" AND EXISTS ( SELECT t FROM Technology t WHERE t.name = :technologyName"
-                    + " AND t MEMBER OF c.technologies )");
-        }
-
-        return queryJPQL.toString();
-
+        throwExceptionNotFound(rowsAffected, messageNotFound);
     }
 
 }

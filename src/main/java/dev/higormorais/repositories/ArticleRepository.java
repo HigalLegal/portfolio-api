@@ -2,7 +2,6 @@ package dev.higormorais.repositories;
 
 
 import java.util.List;
-import java.util.Map;
 
 import dev.higormorais.entities.Article;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
@@ -10,10 +9,10 @@ import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import static dev.higormorais.repositories.utils.RepositoryUtils.*;
+import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
+import static dev.higormorais.utils.GeneratedJPQL.mapToParameters;
 
 
 @ApplicationScoped
@@ -47,22 +46,14 @@ public class ArticleRepository implements PanacheRepositoryBase<Article, Integer
 
     public void update(Article article) {
 
-        Map<String, Parameters> query = createQueryUpdate(
-                Article.class.getSimpleName(),
-                Article.namesAttributes(),
-                Article.namesQuery(),
-                article.values(),
-                true
-        );
+        String jpql = "UPDATE Article a SET a.title = :title, a.summary = :summary, a.urlArticle = :urlArticle," +
+                " a.date = :date, a.technologiesCovered = :technologiesCovered WHERE a.id = :id";
 
-        String queryJPQL = query.keySet().stream().findFirst().get();
-        Parameters queryParameters = query.values().stream().findFirst().get();
+        Parameters parameters = mapToParameters(article.parametersValue());
 
-        int rowsAffected =  this.update(queryJPQL, queryParameters);
+        int rowsAffected = this.update(jpql, parameters);
 
-        if(rowsAffected == 0) {
-            throw new EntityNotFoundException(messageNotFound);
-        }
+        throwExceptionNotFound(rowsAffected, messageNotFound);
     }
 
 }

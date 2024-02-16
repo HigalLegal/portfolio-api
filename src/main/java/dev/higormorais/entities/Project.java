@@ -1,9 +1,7 @@
 package dev.higormorais.entities;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import dev.higormorais.entities.builders.ProjectBuilder;
 import jakarta.persistence.Column;
@@ -93,16 +91,24 @@ public class Project {
     }
 
     public List<Object> values() {
-        return Arrays.asList(description, urlRepository, urlImage, importanceLevel, id);
+        return Arrays.asList(description, urlRepository, urlImage, importanceLevel, technologiesWorked, id);
     }
 
     public static List<String> attributes() {
-        return Arrays.asList("description,urlRepository,urlImage,importanceLevel,id".split(","));
+        return Arrays.asList("description,urlRepository,urlImage,importanceLevel,technologiesWorked,id".split(","));
     }
 
-    public static List<String> attributesQuery() {
-        return Arrays.asList(("newDescription,newUrlRepository,"
-                + "newUrlImage,newImportanceLevel,projectId").split(","));
+    public Map<String, Object> parametersValue() {
+        Map<String, Object> map = new HashMap<>();
+
+        List<String> keys = Project.attributes();
+        List<Object> values = values();
+
+        for(int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        return map;
     }
 
     public static ProjectBuilder build() {
