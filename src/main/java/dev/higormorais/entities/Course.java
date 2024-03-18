@@ -91,11 +91,11 @@ public class Course {
     }
 
     public List<Object> values() {
-        return Arrays.asList(name, urlImage, urlCertificate, importanceLevel, technologies, id);
+        return Arrays.asList(name, urlImage, urlCertificate, importanceLevel, id);
     }
 
     public static List<String> attributes() {
-        return Arrays.asList("name,urlImage,urlCertificate,importanceLevel,technologies,id".split(","));
+        return Arrays.asList("name,urlImage,urlCertificate,importanceLevel,id".split(","));
     }
 
     public Map<String, Object> parametersValue() {

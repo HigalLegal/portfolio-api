@@ -86,13 +86,9 @@ public class CourseServiceImpl implements CourseService {
 
         Course course = courseMapper.toEntitie(courseRequest);
         course.setId(id);
-
-        if(urlImage != null && !urlImage.isBlank()) {
-            course.setUrlImage(urlImage);
-        }
+        course.setUrlImage(urlImage);
 
         courseRepository.update(course);
-
     }
 
     @Override

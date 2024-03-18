@@ -1,7 +1,7 @@
 package dev.higormorais.dto.requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.higormorais.dto.requests.builders.ExperienceRequestBuilder;
-import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -12,24 +12,24 @@ import java.util.List;
 
 public class ExperienceRequest {
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo do nome da empresa não pode ser vazio ou em branco")
+    @NotNull(message = "O campo do nome da empresa não pode ser nulo")
     private String companyName;
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo da descrição não pode ser vazio ou em branco")
+    @NotNull(message = "O campo da descrição não pode ser nulo")
     private String description;
 
-    @NotNull(message = "{validation.message.notNull}")
-    @Past(message = "{validation.message.past}")
-    @JsonbDateFormat("dd/MM/yyyy")
+    @NotNull(message = "O campo do começo não pode ser nulo")
+    @Past(message = "A data do começo deve está no passado!")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate beginning;
 
-    @Past(message = "{validation.message.past}")
-    @JsonbDateFormat("dd/MM/yyyy")
+    @Past(message = "A data de fim deve está no passado!")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate end;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "Você deve colocar pelo menos uma tecnologia")
     private List<Integer> technologiesWorkedId = new ArrayList<>();
 
     // ---------------------------------------------------------------------------------------

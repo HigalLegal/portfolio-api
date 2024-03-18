@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 
 public class TechnologyRequest {
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo do nome não pode ser vazio ou em branco")
+    @NotNull(message = "O campo do nome não pode ser nulo")
     private String name;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "O campo de importância não pode ser nulo")
     private int importanceLevel;
 
     // ----------------------------------------------------------------------------------

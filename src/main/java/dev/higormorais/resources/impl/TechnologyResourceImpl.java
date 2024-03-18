@@ -16,11 +16,11 @@ import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
 
-import static dev.higormorais.utils.Primitive.toPrimitive;
+import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 @Path("/technologies")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.MULTIPART_FORM_DATA)
 @ApplicationScoped
 public class TechnologyResourceImpl implements TechnologyResource {
 
@@ -42,8 +42,9 @@ public class TechnologyResourceImpl implements TechnologyResource {
     @POST
     @Transactional
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response create(@RestForm @PartType(MediaType.APPLICATION_JSON) @Valid TechnologyRequest technologyRequest,
-                           @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
+    public Response create(@RestForm("technologyRequest") @PartType(MediaType.APPLICATION_JSON)
+                               @Valid TechnologyRequest technologyRequest,
+                           @RestForm("image") File image) {
 
         technologyService.create(technologyRequest, image);
 
@@ -56,10 +57,10 @@ public class TechnologyResourceImpl implements TechnologyResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response update(@PathParam("id") Integer id,
-                           @RestForm @PartType(MediaType.APPLICATION_JSON) @Valid TechnologyRequest technologyRequest,
-                           @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
+                           @RestForm("technologyRequest") @PartType(MediaType.APPLICATION_JSON)
+                                @Valid TechnologyRequest technologyRequest,
+                           @RestForm("image") File image) {
         technologyService.update(id, technologyRequest, image);
 
         return Response

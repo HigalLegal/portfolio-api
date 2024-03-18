@@ -14,6 +14,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
 import static dev.higormorais.utils.GeneratedJPQL.addQuery;
 import static dev.higormorais.utils.GeneratedJPQL.excludeImageIfNull;
+import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 
 @ApplicationScoped
@@ -28,7 +29,7 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
 
     public List<Project> findAll(int offset, int limit) {
 
-        limit = offset > limit ? (int) this.count() : limit;
+        limit = idealLimitReturn(limit, offset, (int) this.count());
 
         return entityManager.createQuery( "SELECT p FROM Project p ORDER BY p.importanceLevel DESC", Project.class)
                 .setFirstResult(Math.max(offset, 0))
@@ -40,8 +41,9 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
 
         String urlImageQuery = addQuery(project.getUrlImage(), "p");
 
-        String jpql = "UPDATE Course c SET c.name = :name," + urlImageQuery + " c.urlCertificate = :urlCertificate, " +
-                "c.importanceLevel = :importanceLevel WHERE c.id = :id";
+        String jpql = "UPDATE Project p SET p.description = :description, p.urlRepository = :urlRepository," +
+                urlImageQuery + " p.importanceLevel = :importanceLevel, " +
+                "WHERE p.id = :id";
 
         Parameters parameters = excludeImageIfNull(project.parametersValue(), project.getUrlImage());
 

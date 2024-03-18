@@ -14,6 +14,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
 import static dev.higormorais.utils.GeneratedJPQL.addQuery;
 import static dev.higormorais.utils.GeneratedJPQL.excludeImageIfNull;
+import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 
 @ApplicationScoped
@@ -28,9 +29,9 @@ public class TechnologyRepository implements PanacheRepositoryBase<Technology, I
 
     public List<Technology> findAll(int offset, int limit) {
 
-        limit = offset > limit ? (int) this.count() : limit;
+        limit = idealLimitReturn(limit, offset, (int) this.count());
 
-        return entityManager.createQuery( "SELECT t FROM Technology c ORDER BY t.importanceLevel DESC", Technology.class)
+        return entityManager.createQuery( "SELECT t FROM Technology t ORDER BY t.importanceLevel DESC", Technology.class)
                 .setFirstResult(Math.max(offset, 0))
                 .setMaxResults(Math.max(limit, 0))
                 .getResultList();
@@ -38,10 +39,10 @@ public class TechnologyRepository implements PanacheRepositoryBase<Technology, I
 
     public void update(Technology technology) {
 
-        String urlImageQuery = addQuery(technology.getUrlImage(), "p");
+        String urlImageQuery = addQuery(technology.getUrlImage(), "t");
 
-        String jpql = "UPDATE Course c SET c.name = :name," + urlImageQuery + " c.urlCertificate = :urlCertificate, " +
-                "c.importanceLevel = :importanceLevel WHERE c.id = :id";
+        String jpql = "UPDATE Technology t SET t.name = :name," + urlImageQuery + " t.importanceLevel = :importanceLevel " +
+                "WHERE t.id = :id";
 
         Parameters parameters = excludeImageIfNull(technology.parametersValue(), technology.getUrlImage());
 

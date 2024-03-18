@@ -12,7 +12,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import static dev.higormorais.utils.Primitive.toPrimitive;
+import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 @Path("/experiences")
 @Produces(MediaType.APPLICATION_JSON)

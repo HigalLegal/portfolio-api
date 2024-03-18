@@ -12,6 +12,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
 import static dev.higormorais.utils.GeneratedJPQL.*;
+import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 @ApplicationScoped
 public class CourseRepository implements PanacheRepositoryBase<Course, Integer> {
@@ -25,7 +26,7 @@ public class CourseRepository implements PanacheRepositoryBase<Course, Integer> 
 
     public List<Course> findAll(int offset, int limit) {
 
-        limit = offset > limit ? (int) this.count() : limit;
+        limit = idealLimitReturn(limit, offset, (int) this.count());
 
         return entityManager.createQuery( "SELECT c FROM Course c ORDER BY c.importanceLevel DESC", Course.class)
                 .setFirstResult(Math.max(offset, 0))

@@ -9,11 +9,10 @@ import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
-import static dev.higormorais.utils.GeneratedJPQL.mapToParameters;
-
+import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 @ApplicationScoped
 public class ArticleRepository implements PanacheRepositoryBase<Article, Integer> {
@@ -27,7 +26,7 @@ public class ArticleRepository implements PanacheRepositoryBase<Article, Integer
 
     public List<Article> findAll(int offset, int limit) {
 
-        limit = offset > limit ? (int) this.count() : limit;
+        limit = idealLimitReturn(limit, offset, (int) this.count());
 
         return entityManager.createQuery( "SELECT a FROM Article a ORDER BY a.date DESC", Article.class)
                 .setFirstResult(Math.max(offset, 0))
@@ -35,25 +34,21 @@ public class ArticleRepository implements PanacheRepositoryBase<Article, Integer
                 .getResultList();
     }
 
-    public List<Article> findByName(String nameArticle) {
+    public List<Article> findByTitle(String title) {
 
-        Parameters nameParameter = Parameters.with("nameArticle", "%" + nameArticle + "%");
+        Parameters nameParameter = Parameters.with("title", "%".concat(title).concat("%"));
 
-        String queryJPQL = "SELECT a FROM Article WHERE a.name LIKE :nameArticle";
+        String queryJPQL = "SELECT a FROM Article a WHERE LOWER(a.title) LIKE LOWER(:title)";
 
         return this.find(queryJPQL, nameParameter).list();
     }
 
     public void update(Article article) {
-
-        String jpql = "UPDATE Article a SET a.title = :title, a.summary = :summary, a.urlArticle = :urlArticle," +
-                " a.date = :date, a.technologiesCovered = :technologiesCovered WHERE a.id = :id";
-
-        Parameters parameters = mapToParameters(article.parametersValue());
-
-        int rowsAffected = this.update(jpql, parameters);
-
-        throwExceptionNotFound(rowsAffected, messageNotFound);
+        if(this.isPersistent(article)) {
+            entityManager.merge(article);
+        } else {
+            throw new EntityNotFoundException(messageNotFound);
+        }
     }
 
 }

@@ -8,7 +8,7 @@ public class GeneratedJPQL {
 
     public static String addQuery(String urlImage, String aliasClass) {
 
-        if(urlImage != null && !urlImage.isBlank()) {
+        if(urlImage == null) {
             return "";
         }
 

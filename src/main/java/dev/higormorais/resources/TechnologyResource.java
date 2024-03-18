@@ -1,6 +1,7 @@
 package dev.higormorais.resources;
 
 import dev.higormorais.dto.requests.TechnologyRequest;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.core.Response;
 
 
@@ -10,9 +11,9 @@ public interface TechnologyResource {
 
     Response listAll(Integer offset, Integer limit);
 
-    Response create(TechnologyRequest technologyRequest, File image);
+    Response create(@Valid TechnologyRequest technologyRequest, File image);
 
-    Response update(Integer id, TechnologyRequest technologyRequest, File image);
+    Response update(Integer id, @Valid TechnologyRequest technologyRequest, File image);
 
     Response delete(Integer id);
     

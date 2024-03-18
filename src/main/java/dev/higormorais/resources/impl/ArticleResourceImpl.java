@@ -1,6 +1,6 @@
 package dev.higormorais.resources.impl;
 
-import static dev.higormorais.utils.Primitive.toPrimitive;
+import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 import dev.higormorais.dto.requests.ArticleRequest;
 import dev.higormorais.resources.ArticleResource;
@@ -36,10 +36,10 @@ public class ArticleResourceImpl implements ArticleResource {
 
     @Override
     @GET
-    @Path("/by-name")
-    public Response listByName(@QueryParam("name") String nameArticle) {
+    @Path("/by-title")
+    public Response listByTitle(@QueryParam("title") String title) {
         return Response
-                .ok(articleService.listByName(nameArticle))
+                .ok(articleService.listByTitle(title))
                 .build();
     }
 

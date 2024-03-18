@@ -40,9 +40,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleResponse> listByName(String nameArticle) {
+    public List<ArticleResponse> listByTitle(String title) {
         return articleRepository
-                .findByName(nameArticle)
+                .findByTitle(title)
                 .stream()
                 .map(articleMapper::toResponse)
                 .collect(Collectors.toList());

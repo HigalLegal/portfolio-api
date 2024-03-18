@@ -9,18 +9,18 @@ import java.util.List;
 
 public class CourseRequest {
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo do nome não pode ser vazio ou em branco")
+    @NotNull(message = "O campo do nome não pode ser nulo")
     private String name;
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo da URL do certificado não pode ser vazio ou em branco")
+    @NotNull(message = "O campo da URL do certificado não pode nulo")
     private String urlCertificate;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "O campo não pode ser nulo")
     private int importanceLevel;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "Você deve colocar pelo menos uma tecnologia")
     private List<Integer> technologiesIds = new ArrayList<>();
 
     // ------------------------------------------------------------------------------------

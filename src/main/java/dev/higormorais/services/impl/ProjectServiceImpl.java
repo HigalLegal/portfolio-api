@@ -68,10 +68,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectMapper.toEntitie(projectRequest);
         project.setId(id);
-
-        if(urlImage != null && !urlImage.isBlank()) {
-            project.setUrlImage(urlImage);
-        }
+        project.setUrlImage(urlImage);
 
         projectRepository.persist(project);
     }

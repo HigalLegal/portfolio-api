@@ -16,7 +16,7 @@ import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
 
-import static dev.higormorais.utils.Primitive.toPrimitive;
+import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 @Path("/projects")
 @Produces(MediaType.APPLICATION_JSON)

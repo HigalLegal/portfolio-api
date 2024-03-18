@@ -91,11 +91,11 @@ public class Project {
     }
 
     public List<Object> values() {
-        return Arrays.asList(description, urlRepository, urlImage, importanceLevel, technologiesWorked, id);
+        return Arrays.asList(description, urlRepository, urlImage, importanceLevel, id);
     }
 
     public static List<String> attributes() {
-        return Arrays.asList("description,urlRepository,urlImage,importanceLevel,technologiesWorked,id".split(","));
+        return Arrays.asList("description,urlRepository,urlImage,importanceLevel,id".split(","));
     }
 
     public Map<String, Object> parametersValue() {

@@ -9,18 +9,18 @@ import java.util.List;
 
 public class ProjectRequest {
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo da descrição não pode ser vazio ou em branco")
+    @NotNull(message = "O campo não pode ser nulo")
     private String description;
 
-    @NotBlank(message = "{validation.message.notBlank}")
-    @NotNull(message = "{validation.message.notNull}")
+    @NotBlank(message = "O campo de URL do repositório não pode ser vazio ou em branco")
+    @NotNull(message = "O campo de URL do repositório não pode ser nulo")
     private String urlRepository;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "O campo de importância não pode ser nulo")
     private int importanceLevel;
 
-    @NotNull(message = "{validation.message.notNull}")
+    @NotNull(message = "Você deve colocar pelo menos uma tecnologia")
     private List<Integer> technologiesWorkedId = new ArrayList<>();
 
     // -------------------------------------------------------------------------

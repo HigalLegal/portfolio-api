@@ -3,6 +3,7 @@ package dev.higormorais.repositories;
 
 import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
 import static dev.higormorais.utils.GeneratedJPQL.mapToParameters;
+import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 
@@ -28,7 +30,7 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
 
     public List<Experience> findAll(int offset, int limit) {
 
-        limit = offset > limit ? (int) this.count() : limit;
+        limit = idealLimitReturn(limit, offset, (int) this.count());
 
         return entityManager.createQuery( "SELECT e FROM Experience e ORDER BY e.beginning DESC", Experience.class)
                 .setFirstResult(Math.max(offset, 0))
@@ -38,24 +40,27 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
 
     public void insert(Experience experience) {
 
-        if(!experience.endIsAfterBeginning()) {
-            throw new DateException("A data de admissão não pode ser antes da saída!");
-        }
+        throwDateException(experience);
 
         persist(experience);
     }
 
     public void update(Experience experience) {
 
-        String jpql = "UPDATE Experience e SET e.companyName = :companyName, e.description = :description, " +
-                "e.beginning = :beginning, e.end = :end, e.technologiesWorked = :technologiesWorked WHERE e.id = :id";
+        throwDateException(experience);
 
-        Parameters parameters = mapToParameters(experience.parametersValue());
+        if(this.isPersistent(experience)) {
+            entityManager.merge(experience);
+        } else {
+            throw new EntityNotFoundException(messageNotFound);
+        }
 
-        int rowsAffected = this.update(jpql, parameters);
+    }
 
-        throwExceptionNotFound(rowsAffected, messageNotFound);
-
+    private void throwDateException(Experience experience) {
+        if(!experience.endIsAfterBeginning()) {
+            throw new DateException("A data de admissão não pode ser antes da saída!");
+        }
     }
 
 }

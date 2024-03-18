@@ -9,7 +9,7 @@ public interface ArticleService {
 
     List<ArticleResponse> listAll(int offset, int limit);
 
-    List<ArticleResponse> listByName(String nameArticle);
+    List<ArticleResponse> listByTitle(String nameArticle);
 
     void create(ArticleRequest articleRequest);
 

@@ -66,12 +66,10 @@ public class TechnologyServiceImpl implements TechnologyService {
         String urlImage = imageUpload(imageAPI, image, keyImgBbRepository.returnKey());
 
         Technology technology = technologyMapper.toEntitie(technologyRequest);
+        technology.setId(id);
+        technology.setUrlImage(urlImage);
 
-        if(urlImage != null && urlImage.isBlank()) {
-            technology.setUrlImage(urlImage);
-        }
-
-        technologyRepository.persist(technology);
+        technologyRepository.update(technology);
     }
 
     @Override
