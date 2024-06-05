@@ -4,6 +4,8 @@ import dev.higormorais.dto.requests.ProjectRequest;
 import dev.higormorais.resources.ProjectResource;
 import dev.higormorais.services.ProjectService;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -31,6 +33,7 @@ public class ProjectResourceImpl implements ProjectResource {
 
     @Override
     @GET
+    @PermitAll
     public Response listAll(@QueryParam("offset") @Nullable Integer offset,
                             @QueryParam("limit") @Nullable Integer limit) {
         return Response
@@ -41,6 +44,7 @@ public class ProjectResourceImpl implements ProjectResource {
     @Override
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response create(@RestForm @PartType(MediaType.APPLICATION_JSON) @Valid ProjectRequest projectRequest,
                            @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
@@ -56,6 +60,7 @@ public class ProjectResourceImpl implements ProjectResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response update(@PathParam("id") Integer id,
                            @RestForm @PartType(MediaType.APPLICATION_JSON) @Valid ProjectRequest projectRequest,
@@ -71,6 +76,7 @@ public class ProjectResourceImpl implements ProjectResource {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response delete(@PathParam("id") Integer id) {
 
         projectService.delete(id);

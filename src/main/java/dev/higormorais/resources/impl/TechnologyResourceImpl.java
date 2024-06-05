@@ -4,6 +4,8 @@ import dev.higormorais.dto.requests.TechnologyRequest;
 import dev.higormorais.resources.TechnologyResource;
 import dev.higormorais.services.TechnologyService;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -31,6 +33,7 @@ public class TechnologyResourceImpl implements TechnologyResource {
 
     @Override
     @GET
+    @PermitAll
     public Response listAll(@QueryParam("offset") @Nullable Integer offset,
                             @QueryParam("limit") @Nullable Integer limit) {
         return Response
@@ -41,6 +44,7 @@ public class TechnologyResourceImpl implements TechnologyResource {
     @Override
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response create(@RestForm("technologyRequest") @PartType(MediaType.APPLICATION_JSON)
                                @Valid TechnologyRequest technologyRequest,
@@ -57,6 +61,7 @@ public class TechnologyResourceImpl implements TechnologyResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response update(@PathParam("id") Integer id,
                            @RestForm("technologyRequest") @PartType(MediaType.APPLICATION_JSON)
                                 @Valid TechnologyRequest technologyRequest,
@@ -72,6 +77,7 @@ public class TechnologyResourceImpl implements TechnologyResource {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response delete(@PathParam("id") Integer id) {
 
         technologyService.delete(id);

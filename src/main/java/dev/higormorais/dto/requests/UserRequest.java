@@ -1,32 +1,22 @@
-package dev.higormorais.entities;
+package dev.higormorais.dto.requests;
 
-import dev.higormorais.entities.builders.UserBuilder;
-import jakarta.persistence.*;
+import dev.higormorais.dto.requests.builders.UserRequestBuilder;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-public class User {
+public class UserRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false, unique = true)
+    @Email(message = "Email inválido.")
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Senha inválida.")
+    @Min(value = 3, message = "A senha precisa ter no mínimo 3 caracteres!")
     private String password;
 
     private boolean admin;
 
     // -------------------------------------------------------------------
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;
@@ -52,8 +42,9 @@ public class User {
         this.admin = admin;
     }
 
-    public static UserBuilder builder() {
-        return UserBuilder.getInstance();
+    public static UserRequestBuilder builder() {
+        return UserRequestBuilder.getInstance();
     }
+
 
 }

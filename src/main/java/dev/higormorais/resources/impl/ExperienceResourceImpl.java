@@ -4,6 +4,8 @@ import dev.higormorais.dto.requests.ExperienceRequest;
 import dev.higormorais.resources.ExperienceResource;
 import dev.higormorais.services.ExperienceService;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -27,6 +29,7 @@ public class ExperienceResourceImpl implements ExperienceResource {
 
     @Override
     @GET
+    @PermitAll
     public Response listAll(@QueryParam("offset") @Nullable Integer offset,
                             @QueryParam("limit") @Nullable Integer limit) {
         return Response
@@ -37,6 +40,7 @@ public class ExperienceResourceImpl implements ExperienceResource {
     @Override
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response create(@Valid ExperienceRequest experienceRequest) {
         experienceService.create(experienceRequest);
 
@@ -49,6 +53,7 @@ public class ExperienceResourceImpl implements ExperienceResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response update(@PathParam("id") Integer id, @Valid ExperienceRequest experienceRequest) {
         experienceService.update(id, experienceRequest);
 
@@ -61,6 +66,7 @@ public class ExperienceResourceImpl implements ExperienceResource {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response delete(@PathParam("id") Integer id) {
         experienceService.delete(id);
 

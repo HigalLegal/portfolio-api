@@ -6,6 +6,8 @@ import dev.higormorais.dto.requests.ArticleRequest;
 import dev.higormorais.resources.ArticleResource;
 import dev.higormorais.services.ArticleService;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -27,6 +29,7 @@ public class ArticleResourceImpl implements ArticleResource {
 
     @Override
     @GET
+    @PermitAll
     public Response listAll(@QueryParam("offset") @Nullable Integer offset,
                             @QueryParam("limit") @Nullable Integer limit) {
         return Response
@@ -36,6 +39,7 @@ public class ArticleResourceImpl implements ArticleResource {
 
     @Override
     @GET
+    @PermitAll
     @Path("/by-title")
     public Response listByTitle(@QueryParam("title") String title) {
         return Response
@@ -46,6 +50,7 @@ public class ArticleResourceImpl implements ArticleResource {
     @Override
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response create(@Valid ArticleRequest articleRequest) {
 
         articleService.create(articleRequest);
@@ -59,6 +64,7 @@ public class ArticleResourceImpl implements ArticleResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response update(@PathParam("id") Integer id, @Valid ArticleRequest articleRequest) {
         articleService.update(id, articleRequest);
 
@@ -71,6 +77,7 @@ public class ArticleResourceImpl implements ArticleResource {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response delete(@PathParam("id") Integer id) {
 
         articleService.delete(id);

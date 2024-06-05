@@ -4,6 +4,8 @@ import dev.higormorais.dto.requests.CourseRequest;
 import dev.higormorais.resources.CourseResource;
 import dev.higormorais.services.CourseService;
 import jakarta.annotation.Nullable;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -31,6 +33,7 @@ public class CourseResourceImpl implements CourseResource {
 
     @Override
     @GET
+    @PermitAll
     public Response listAll(@QueryParam("offset") @Nullable Integer offset,
                             @QueryParam("limit") @Nullable Integer limit) {
         return Response
@@ -41,6 +44,7 @@ public class CourseResourceImpl implements CourseResource {
     @Override
     @GET
     @Path("/by-name")
+    @PermitAll
     public Response listByName(@QueryParam("name") String name) {
         return Response
                 .ok(courseService.listByName(name))
@@ -50,6 +54,7 @@ public class CourseResourceImpl implements CourseResource {
     @Override
     @GET
     @Path("/by-technology")
+    @PermitAll
     public Response listByTechnology(@QueryParam("technology") String technology) {
         return Response
                 .ok(courseService.listByTechnology(technology))
@@ -59,6 +64,7 @@ public class CourseResourceImpl implements CourseResource {
     @Override
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response create(@RestForm @PartType(MediaType.APPLICATION_JSON) @Valid CourseRequest courseRequest,
                            @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
@@ -74,6 +80,7 @@ public class CourseResourceImpl implements CourseResource {
     @PUT
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response update(@PathParam("id") Integer id,
                            @RestForm @PartType(MediaType.APPLICATION_JSON) @Valid CourseRequest courseRequest,
@@ -90,6 +97,7 @@ public class CourseResourceImpl implements CourseResource {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
     public Response delete(@PathParam("id") Integer id) {
 
         courseService.delete(id);

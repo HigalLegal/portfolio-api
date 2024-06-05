@@ -1,24 +1,18 @@
-package dev.higormorais.entities;
+package dev.higormorais.dto.responses;
 
-import dev.higormorais.entities.builders.UserBuilder;
-import jakarta.persistence.*;
+import dev.higormorais.dto.responses.builders.UserResponseBuilder;
 
-@Entity
-public class User {
+public class UserResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     private boolean admin;
 
-    // -------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------
 
     public Integer getId() {
         return id;
@@ -52,8 +46,8 @@ public class User {
         this.admin = admin;
     }
 
-    public static UserBuilder builder() {
-        return UserBuilder.getInstance();
+    public static UserResponseBuilder builder() {
+        return UserResponseBuilder.getInstance();
     }
 
 }
