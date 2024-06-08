@@ -14,7 +14,7 @@ import java.util.Set;
 @ApplicationScoped
 public class TokenGeneratorImpl implements TokenGenerator {
 
-    private long EXPIRATION_TIME_IN_SECONDS = 60 * 2;
+    private long EXPIRATION_TIME_IN_SECONDS = 60 * 60 * 3;
 
     @Override
     public String createToken(User user) {
