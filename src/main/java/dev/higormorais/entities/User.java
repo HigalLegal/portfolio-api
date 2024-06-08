@@ -4,6 +4,7 @@ import dev.higormorais.entities.builders.UserBuilder;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "account")
 public class User {
 
     @Id

@@ -34,14 +34,13 @@ public class UserServiceImpl implements UserService {
                 .findByEmail(credentialsRequest.getEmail())
                 .orElseThrow(this::throwsNotFoundException);
 
-        String tokenJWT = tokenGenerator.createToken(user);
-
         if(!checkPassword(credentialsRequest.getPassword(), user.getPassword())) {
             throw new InvalidPasswordException("Senha inválida.");
         }
 
-        var tokenResponse = new TokenResponse();
-        tokenResponse.setJwt(tokenJWT);
+        String tokenJWT = tokenGenerator.createToken(user);
+
+        var tokenResponse = new TokenResponse(tokenJWT);
 
         return tokenResponse;
     }
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public void create(UserRequest userRequest) {
 
         User user = userMapper.toEntitie(userRequest);
-        userRequest.setPassword(generateEncryptedPassword(user.getPassword()));
+        user.setPassword(generateEncryptedPassword(userRequest.getPassword()));
 
         userRepository.persist(user);
     }
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.toEntitie(userRequest);
         user.setId(id);
-        user.setPassword(generateEncryptedPassword(user.getPassword()));
+        user.setPassword(generateEncryptedPassword(userRequest.getPassword()));
 
         userRepository.update(user);
     }

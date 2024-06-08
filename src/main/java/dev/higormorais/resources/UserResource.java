@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Response;
 
 public interface UserResource {
 
-    Response login(CredentialsRequest credentialsRequest);
+    Response login(@Valid CredentialsRequest credentialsRequest);
 
     Response create(@Valid UserRequest userRequest);
 

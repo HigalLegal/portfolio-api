@@ -26,7 +26,7 @@ public class UserResourceImpl implements UserResource {
     // ---------------------------------------------------------
 
     @Override
-    @GET
+    @POST
     @Path("/login")
     @PermitAll
     public Response login(@Valid CredentialsRequest credentialsRequest) {
