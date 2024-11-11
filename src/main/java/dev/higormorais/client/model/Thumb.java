@@ -2,15 +2,15 @@ package dev.higormorais.client.model;
 
 public class Thumb {
 
-    public String filename;
+    private String filename;
 
-    public String name;
+    private String name;
 
-    public String mime;
+    private String mime;
 
-    public String extension;
+    private String extension;
 
-    public String url;
+    private String url;
 
     // ---------------------------------------------------------------------------------------
 

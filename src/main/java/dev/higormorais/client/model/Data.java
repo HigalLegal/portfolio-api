@@ -4,36 +4,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Data {
 
-    public String id;
+    private String id;
 
-    public String title;
+    private String title;
 
     @JsonProperty("url_viewer")
-    public String urlViewer;
+    private String urlViewer;
 
-    public String url;
+    private String url;
 
     @JsonProperty("display_url")
-    public String displayUrl;
+    private String displayUrl;
 
-    public int width;
+    private int width;
 
-    public int height;
+    private int height;
 
-    public int size;
+    private int size;
 
-    public int time;
+    private int time;
 
-    public int expiration;
+    private int expiration;
 
-    public Image image;
+    private Image image;
 
-    public Thumb thumb;
+    private Thumb thumb;
 
-    public Medium medium;
+    private Medium medium;
 
     @JsonProperty("delete_url")
-    public String deleteUrl;
+    private String deleteUrl;
 
     // -----------------------------------------------------------------------------------------
 

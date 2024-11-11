@@ -2,11 +2,11 @@ package dev.higormorais.client.model;
 
 public class Root {
 
-    public Data data;
+    private Data data;
 
-    public boolean success;
+    private boolean success;
 
-    public int status;
+    private int status;
 
     // ---------------------------------------------------------------------
 
