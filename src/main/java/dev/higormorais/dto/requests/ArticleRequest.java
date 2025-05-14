@@ -1,13 +1,9 @@
 package dev.higormorais.dto.requests;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.higormorais.dto.requests.builders.ArticleRequestBuilder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +20,6 @@ public class ArticleRequest {
     @NotBlank(message = "O campo da URL do artigo não pode ser vazio ou em branco")
     @NotNull(message = "O campo da URL do artigo não pode ser nulo")
     private String urlArticle;
-
-    @NotNull(message = "O campo da data não pode ser nulo")
-    @Past(message = "A data deve ser no passado!")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate date;
 
     @NotNull(message = "Você deve colocar pelo menos uma tecnologia")
     private List<Integer> technologiesCoveredId = new ArrayList<>();
@@ -57,14 +48,6 @@ public class ArticleRequest {
 
     public void setUrlArticle(String urlArticle) {
         this.urlArticle = urlArticle;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public List<Integer> getTechnologiesCoveredId() {

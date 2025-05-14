@@ -19,8 +19,6 @@ public class ArticleBuilder {
 
     private String urlArticle;
 
-    private LocalDate date;
-
     private List<Technology> technologiesCovered = new ArrayList<>();
 
     // -------------------------------------------------------------------------
@@ -53,11 +51,6 @@ public class ArticleBuilder {
         return this;
     }
 
-    public ArticleBuilder date(LocalDate date) {
-        this.date = date;
-        return this;
-    }
-
     public ArticleBuilder technologiesCovered(List<Technology> technologies) {
         this.technologiesCovered.addAll(technologies);
         return this;
@@ -70,7 +63,6 @@ public class ArticleBuilder {
         article.setTitle(title);
         article.setSummary(summary);
         article.setUrlArticle(urlArticle);
-        article.setDate(date);
         article.setTechnologiesCovered(technologiesCovered);
 
         return article;

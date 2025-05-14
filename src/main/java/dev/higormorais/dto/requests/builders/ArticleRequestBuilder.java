@@ -2,7 +2,6 @@ package dev.higormorais.dto.requests.builders;
 
 import dev.higormorais.dto.requests.ArticleRequest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ public class ArticleRequestBuilder {
 
     private String urlArticle;
 
-    private LocalDate date;
     private List<Integer> technologiesCoveredId = new ArrayList<>();
 
     // -------------------------------------------------------------------------------
@@ -42,11 +40,6 @@ public class ArticleRequestBuilder {
         return this;
     }
 
-    public ArticleRequestBuilder date(LocalDate date) {
-        this.date = date;
-        return this;
-    }
-
     public ArticleRequestBuilder technologiesCovered(List<Integer> technologiesCoveredId) {
         this.technologiesCoveredId = technologiesCoveredId;
         return this;
@@ -58,7 +51,6 @@ public class ArticleRequestBuilder {
         articleRequest.setTitle(title);
         articleRequest.setSummary(summary);
         articleRequest.setUrlArticle(urlArticle);
-        articleRequest.setDate(date);
         articleRequest.setTechnologiesCoveredId(technologiesCoveredId);
 
         return articleRequest;

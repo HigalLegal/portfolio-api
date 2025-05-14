@@ -20,7 +20,6 @@ public class ArticleMapperImpl implements ArticleMapper {
                 .title(request.getTitle())
                 .summary(request.getSummary())
                 .urlArticle(request.getUrlArticle())
-                .date(request.getDate())
                 .technologiesCovered(request.getTechnologiesCoveredId()
                         .stream()
                         .map(Converter::integerIdToTechnology)
@@ -36,7 +35,6 @@ public class ArticleMapperImpl implements ArticleMapper {
                 .title(entitie.getTitle())
                 .summary(entitie.getSummary())
                 .urlArticle(entitie.getUrlArticle())
-                .date(dateToString(entitie.getDate()))
                 .technologiesCovered(entitie
                         .getTechnologiesCovered()
                         .stream()
@@ -44,15 +42,5 @@ public class ArticleMapperImpl implements ArticleMapper {
                         .collect(Collectors.toList()))
                 .build();
     }
-
-    private String dateToString(LocalDate date) {
-
-        int day = date.getDayOfMonth();
-        String month = Converter.localDateToMonthString(date);
-        int year = date.getYear();
-
-        return day + " de " + month + " de " + year;
-    }
-
 
 }

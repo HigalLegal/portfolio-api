@@ -15,8 +15,6 @@ public class ArticleResponse {
 
     private String urlArticle;
 
-    private String date;
-
     private List<String> technologiesCovered = new ArrayList<>();
 
     // -------------------------------------------------------------------------------
@@ -52,14 +50,6 @@ public class ArticleResponse {
 
     public void setUrlArticle(String urlArticle) {
         this.urlArticle = urlArticle;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public List<String> getTechnologiesCovered() {

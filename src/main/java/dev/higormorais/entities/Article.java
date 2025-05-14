@@ -1,7 +1,5 @@
 package dev.higormorais.entities;
 
-
-import java.time.LocalDate;
 import java.util.*;
 
 import dev.higormorais.entities.builders.ArticleBuilder;
@@ -31,9 +29,6 @@ public class Article {
 
     @Column(nullable = false, name = "url_article")
     private String urlArticle;
-
-    @Column(nullable = false, name = "date_article")
-    private LocalDate date;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "article_technology",
@@ -75,14 +70,6 @@ public class Article {
         this.urlArticle = urlArticle;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
     public List<Technology> getTechnologiesCovered() {
         return technologiesCovered;
     }
@@ -92,11 +79,11 @@ public class Article {
     }
 
     public List<Object> values() {
-        return Arrays.asList(title, summary, urlArticle, date, technologiesCovered, id);
+        return Arrays.asList(title, summary, urlArticle, technologiesCovered, id);
     }
 
     public static List<String> attributes() {
-        return Arrays.asList("title,summary,urlArticle,date,technologiesCovered,id".split(","));
+        return Arrays.asList("title,summary,urlArticle,technologiesCovered,id".split(","));
     }
 
     public Map<String, Object> parametersValue() {

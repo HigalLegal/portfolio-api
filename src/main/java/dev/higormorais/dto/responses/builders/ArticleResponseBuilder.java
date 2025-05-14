@@ -15,8 +15,6 @@ public class ArticleResponseBuilder {
 
     private String urlArticle;
 
-    private String date;
-
     private List<String> technologiesCovered = new ArrayList<>();
 
     // -------------------------------------------------------------------------------------------
@@ -49,11 +47,6 @@ public class ArticleResponseBuilder {
         return this;
     }
 
-    public ArticleResponseBuilder date(String date) {
-        this.date = date;
-        return this;
-    }
-
     public ArticleResponseBuilder technologiesCovered(List<String> technologiesCovered) {
         this.technologiesCovered = technologiesCovered;
         return this;
@@ -66,7 +59,6 @@ public class ArticleResponseBuilder {
         articleResponse.setTitle(title);
         articleResponse.setSummary(summary);
         articleResponse.setUrlArticle(urlArticle);
-        articleResponse.setDate(date);
         articleResponse.setTechnologiesCovered(technologiesCovered);
 
         return articleResponse;
