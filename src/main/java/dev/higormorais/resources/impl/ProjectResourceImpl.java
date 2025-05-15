@@ -19,6 +19,7 @@ import org.jboss.resteasy.reactive.RestForm;
 import java.io.File;
 
 import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
+import static dev.higormorais.utils.ExceptionUtil.throwImageException;
 
 @Path("/projects")
 @Produces(MediaType.APPLICATION_JSON)
@@ -48,6 +49,7 @@ public class ProjectResourceImpl implements ProjectResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response create(@RestForm @PartType(MediaType.APPLICATION_JSON) @Valid ProjectRequest projectRequest,
                            @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
+        throwImageException(image, "A imagem é obrigatório");
 
         projectService.create(projectRequest, image);
 

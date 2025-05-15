@@ -25,7 +25,7 @@ public class Course {
     @Column(nullable = false, name = "name_course")
     private String name;
 
-    @Column(name = "url_image")
+    @Column(nullable = false, name = "url_image")
     private String urlImage;
 
     @Column(nullable = false, name = "url_certificate")

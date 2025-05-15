@@ -22,7 +22,7 @@ public class Technology {
     @Column(nullable = false, name = "name_technology")
     private String name;
 
-    @Column(name = "url_image")
+    @Column(nullable = false, name = "url_image")
     private String urlImage;
 
     @Column(nullable = false, name = "importance_level")

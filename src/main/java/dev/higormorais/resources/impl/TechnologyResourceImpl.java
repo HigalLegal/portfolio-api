@@ -18,6 +18,7 @@ import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
 
+import static dev.higormorais.utils.ExceptionUtil.throwImageException;
 import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 @Path("/technologies")
@@ -49,6 +50,7 @@ public class TechnologyResourceImpl implements TechnologyResource {
     public Response create(@RestForm("technologyRequest") @PartType(MediaType.APPLICATION_JSON)
                                @Valid TechnologyRequest technologyRequest,
                            @RestForm("image") File image) {
+        throwImageException(image, "A imagem é obrigatório");
 
         technologyService.create(technologyRequest, image);
 

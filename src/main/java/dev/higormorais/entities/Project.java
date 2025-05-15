@@ -28,7 +28,7 @@ public class Project {
     @Column(nullable = false, name = "url_repository")
     private String urlRepository;
 
-    @Column(name = "url_image")
+    @Column(nullable = false, name = "url_image")
     private String urlImage;
 
     @Column(nullable = false, name = "importance_level")

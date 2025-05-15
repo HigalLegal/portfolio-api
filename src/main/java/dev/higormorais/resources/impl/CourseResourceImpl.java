@@ -18,6 +18,7 @@ import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
 
+import static dev.higormorais.utils.ExceptionUtil.throwImageException;
 import static dev.higormorais.utils.IntegerNumberOperations.toPrimitive;
 
 @Path("/courses")
@@ -68,6 +69,8 @@ public class CourseResourceImpl implements CourseResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response create(@RestForm @PartType(MediaType.APPLICATION_JSON) @Valid CourseRequest courseRequest,
                            @RestForm("image") @PartType(MediaType.MULTIPART_FORM_DATA) File image) {
+
+        throwImageException(image, "A imagem é obrigatório");
 
         courseService.create(courseRequest, image);
 
