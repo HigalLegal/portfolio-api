@@ -19,6 +19,16 @@ public class KeyImgBb {
         this.value = value;
     }
 
+    // -------------------------------------------------------------------------
+
+    public KeyImgBb() {}
+
+    public KeyImgBb(String value) {
+        this.value = value;
+    }
+
+    // -------------------------------------------------------------------------
+
     @Override
     public String toString() {
         return value;

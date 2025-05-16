@@ -5,6 +5,7 @@ import dev.higormorais.dto.mappers.UserMapper;
 import dev.higormorais.dto.requests.CredentialsRequest;
 import dev.higormorais.dto.requests.UserRequest;
 import dev.higormorais.dto.responses.TokenResponse;
+import dev.higormorais.dto.responses.UserResponse;
 import dev.higormorais.entities.User;
 import dev.higormorais.exceptions.InvalidPasswordException;
 import dev.higormorais.repositories.UserRepository;
@@ -13,6 +14,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class UserServiceImpl implements UserService {
@@ -43,6 +47,11 @@ public class UserServiceImpl implements UserService {
         var tokenResponse = new TokenResponse(tokenJWT);
 
         return tokenResponse;
+    }
+
+    @Override
+    public Long total() {
+        return this.userRepository.count();
     }
 
     @Override
