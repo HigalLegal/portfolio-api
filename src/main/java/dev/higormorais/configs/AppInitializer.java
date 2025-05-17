@@ -1,12 +1,13 @@
-package dev.higormorais.configs.jwt;
+package dev.higormorais.configs;
 
 import dev.higormorais.dto.requests.UserRequest;
 import dev.higormorais.entities.KeyImgBb;
 import dev.higormorais.repositories.KeyImgBbRepository;
 import dev.higormorais.services.UserService;
+import io.quarkus.runtime.Startup;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 
 import java.io.BufferedReader;
@@ -14,17 +15,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-@ApplicationScoped
+@Startup
+@Singleton
 public class AppInitializer {
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Inject
-    KeyImgBbRepository keyImgBbRepository;
+    private KeyImgBbRepository keyImgBbRepository;
 
     @PostConstruct
-    @Transactional
     public void init() {
         String datasLine = readUserTxt();
         String[] datas = datasLine.split(",");
@@ -37,11 +38,12 @@ public class AppInitializer {
         this.insertKeyApiImage(key);
     }
 
-    private void insertInitialUser(String email, String password) {
+    @Transactional
+    void insertInitialUser(String email, String password) {
 
         Long totalUsers = this.userService.total();
 
-        if(totalUsers > 0) {
+        if(totalUsers == 0) {
             UserRequest userRequest = UserRequest
                     .builder()
                     .email(email)
@@ -52,10 +54,11 @@ public class AppInitializer {
         }
     }
 
-    private void insertKeyApiImage(String key) {
+    @Transactional
+    void insertKeyApiImage(String key) {
         long totalKeys = this.keyImgBbRepository.count();
 
-        if(totalKeys >  0) {
+        if(totalKeys ==  0) {
             this.keyImgBbRepository.persist(new KeyImgBb(key));
         }
     }
