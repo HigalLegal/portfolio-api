@@ -11,6 +11,8 @@ public interface TechnologyResource {
 
     Response listAll(Integer offset, Integer limit);
 
+    Response byId(Integer id);
+
     Response create(@Valid TechnologyRequest technologyRequest, File image);
 
     Response update(Integer id, @Valid TechnologyRequest technologyRequest, File image);

@@ -11,6 +11,8 @@ public interface TechnologyService {
 
     List<TechnologyResponse> listAll(int offset, int limit);
 
+    TechnologyResponse byId(Integer id);
+
     void create(TechnologyRequest technologyRequest, File image);
 
     void update(Integer id, TechnologyRequest technologyRequest, File image);

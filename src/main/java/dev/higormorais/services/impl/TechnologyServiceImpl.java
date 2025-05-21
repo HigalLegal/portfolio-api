@@ -52,6 +52,14 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
+    public  TechnologyResponse byId(Integer id) {
+        Technology technology = technologyRepository
+                .findByIdOptional(id)
+                .orElseThrow(this::throwsNotFoundException);
+        return technologyMapper.toResponse(technology);
+    }
+
+    @Override
     public void create(TechnologyRequest technologyRequest, File image) {
         String urlImage = imageUpload(imageAPI, image, keyImgBbRepository.returnKey());
 
@@ -75,5 +83,9 @@ public class TechnologyServiceImpl implements TechnologyService {
     @Override
     public void delete(Integer id) {
         deleteAbstract(id, technologyRepository, messageNotFound);
+    }
+
+    private EntityNotFoundException throwsNotFoundException() {
+        return new EntityNotFoundException("Tecnologia não encontrada");
     }
 }

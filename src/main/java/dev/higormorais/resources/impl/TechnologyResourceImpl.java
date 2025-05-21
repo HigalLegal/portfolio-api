@@ -43,6 +43,16 @@ public class TechnologyResourceImpl implements TechnologyResource {
     }
 
     @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
+    public Response byId(@PathParam("id") Integer id) {
+        return Response
+                .ok(this.technologyService.byId(id))
+                .build();
+    }
+
+    @Override
     @POST
     @Transactional
     @RolesAllowed({"ADMIN", "NON_ADMIN"})
