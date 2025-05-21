@@ -6,7 +6,9 @@ import static dev.higormorais.utils.RemovalById.deleteAbstract;
 import dev.higormorais.client.ApiImgBB;
 import dev.higormorais.dto.mappers.ProjectMapper;
 import dev.higormorais.dto.requests.ProjectRequest;
+import dev.higormorais.dto.responses.ArticleResponse;
 import dev.higormorais.dto.responses.ProjectResponse;
+import dev.higormorais.entities.Article;
 import dev.higormorais.entities.Project;
 import dev.higormorais.repositories.ProjectRepository;
 import dev.higormorais.repositories.KeyImgBbRepository;
@@ -52,6 +54,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public ProjectResponse byId(Integer id) {
+        Project project = projectRepository
+                .findByIdOptional(id)
+                .orElseThrow(this::throwsNotFoundException);
+        return projectMapper.toResponse(project);
+    }
+
+
+    @Override
     public void create(ProjectRequest projectRequest, File image) {
         String urlImage = imageUpload(imageAPI, image, keyImgBbRepository.returnKey());
 
@@ -76,5 +87,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delete(Integer id) {
         deleteAbstract(id, projectRepository, messageNotFound);
+    }
+
+    private EntityNotFoundException throwsNotFoundException() {
+        return new EntityNotFoundException("Projeto não encontrado.");
     }
 }

@@ -8,6 +8,8 @@ public interface ExperienceResource {
 
     Response listAll(Integer offset, Integer limit);
 
+    Response byId(Integer id);
+
     Response create(@Valid ExperienceRequest experienceRequest);
 
     Response update(Integer id, @Valid ExperienceRequest experienceRequest);

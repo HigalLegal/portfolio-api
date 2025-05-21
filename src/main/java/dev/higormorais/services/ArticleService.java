@@ -11,6 +11,8 @@ public interface ArticleService {
 
     List<ArticleResponse> listByTitle(String nameArticle);
 
+    ArticleResponse byId(Integer id);
+
     void create(ArticleRequest articleRequest);
 
     void update(Integer id, ArticleRequest articleRequest);

@@ -10,6 +10,7 @@ import dev.higormorais.repositories.ArticleRepository;
 import dev.higormorais.services.ArticleService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.util.List;
@@ -49,6 +50,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleResponse byId(Integer id) {
+        Article article = articleRepository
+                .findByIdOptional(id)
+                .orElseThrow(this::throwsNotFoundException);
+        return articleMapper.toResponse(article);
+    }
+
+    @Override
     public void create(ArticleRequest articleRequest) {
         articleRepository.persist(articleMapper.toEntitie(articleRequest));
     }
@@ -64,5 +73,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Integer id) {
         deleteAbstract(id, articleRepository, messageNotFound);
+    }
+
+    private EntityNotFoundException throwsNotFoundException() {
+        return new EntityNotFoundException("Artigo não encontrado.");
     }
 }

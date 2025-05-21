@@ -43,6 +43,17 @@ public class ProjectResourceImpl implements ProjectResource {
     }
 
     @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
+    public Response byId(@PathParam("id") Integer id) {
+        return Response
+                .ok(projectService.byId(id))
+                .build();
+    }
+
+
+    @Override
     @POST
     @Transactional
     @RolesAllowed({"ADMIN", "NON_ADMIN"})

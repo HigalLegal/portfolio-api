@@ -9,6 +9,8 @@ public interface ExperienceService {
 
     List<ExperienceResponse> listAll(int offset, int limit);
 
+    ExperienceResponse byId(Integer id);
+
     void create(ExperienceRequest experienceRequest);
 
     void update(Integer id, ExperienceRequest experienceRequest);

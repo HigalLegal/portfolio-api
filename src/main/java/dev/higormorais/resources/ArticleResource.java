@@ -12,6 +12,8 @@ public interface ArticleResource {
 
     Response create(@Valid ArticleRequest articleRequest);
 
+    Response byId(Integer id);
+
     Response update(Integer id, @Valid ArticleRequest articleRequest);
 
     Response delete(Integer id);

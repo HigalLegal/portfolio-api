@@ -41,6 +41,15 @@ public class ExperienceServiceImpl implements ExperienceService {
     }
 
     @Override
+    public ExperienceResponse byId(Integer id) {
+        Experience experience = experienceRepository
+                .findByIdOptional(id)
+                .orElseThrow(this::throwsNotFoundException);
+
+        return experienceMapper.toResponse(experience);
+    }
+
+    @Override
     public void create(ExperienceRequest experienceRequest) {
         experienceRepository.persist(experienceMapper.toEntitie(experienceRequest));
     }
@@ -57,5 +66,9 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public void delete(Integer id) {
         deleteAbstract(id, experienceRepository, messageNotFound);
+    }
+
+    private EntityNotFoundException throwsNotFoundException() {
+        return new EntityNotFoundException("Experiência inexistente.");
     }
 }

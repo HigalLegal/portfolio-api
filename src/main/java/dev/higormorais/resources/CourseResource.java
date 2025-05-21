@@ -14,6 +14,8 @@ public interface CourseResource {
 
     Response listByTechnology(String technology);
 
+    Response byId(Integer id);
+
     Response create(@Valid CourseRequest courseRequest, File image);
 
     Response update(Integer id, @Valid CourseRequest courseRequest, File image);

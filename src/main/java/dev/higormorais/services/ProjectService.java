@@ -10,6 +10,8 @@ public interface ProjectService {
 
     List<ProjectResponse> listAll(int offset, int limit);
 
+    ProjectResponse byId(Integer id);
+
     void create(ProjectRequest projectRequest, File image);
 
     void update(Integer id, ProjectRequest projectRequest, File image);

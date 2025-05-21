@@ -70,6 +70,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public CourseResponse byId(Integer id) {
+        Course course = courseRepository
+                .findByIdOptional(id)
+                .orElseThrow(this::throwsNotFoundException);
+        return courseMapper.toResponse(course);
+    }
+
+    @Override
     public void create(CourseRequest courseRequest, File image) {
         String urlImage = imageUpload(imageAPI, image, keyImgBbRepository.returnKey());
 
@@ -94,5 +102,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(Integer id) {
         deleteAbstract(id, courseRepository, messageNotFound);
+    }
+
+    private EntityNotFoundException throwsNotFoundException() {
+        return new EntityNotFoundException("Curso não encontrado.");
     }
 }

@@ -14,6 +14,8 @@ public interface CourseService {
 
     List<CourseResponse> listByTechnology(String technology);
 
+    CourseResponse byId(Integer id);
+
     void create(CourseRequest courseRequest, File image);
 
     void update(Integer id, CourseRequest courseRequest, File image);

@@ -10,6 +10,8 @@ public interface ProjectResource {
 
     Response listAll(Integer offset, Integer Integer);
 
+    Response byId(Integer id);
+
     Response create(@Valid ProjectRequest projectRequest, File image);
 
     Response update(Integer id, @Valid ProjectRequest projectRequest, File image);

@@ -38,6 +38,16 @@ public class ExperienceResourceImpl implements ExperienceResource {
     }
 
     @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
+    public Response byId(@PathParam("id") Integer id) {
+        return Response
+                .ok(experienceService.byId(id))
+                .build();
+    }
+
+    @Override
     @POST
     @Transactional
     @RolesAllowed({"ADMIN", "NON_ADMIN"})

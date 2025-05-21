@@ -48,6 +48,17 @@ public class ArticleResourceImpl implements ArticleResource {
     }
 
     @Override
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"ADMIN", "NON_ADMIN"})
+    public Response byId(@PathParam("id") Integer id) {
+        return Response
+                .ok(articleService.byId(id))
+                .build();
+    }
+
+
+    @Override
     @POST
     @Transactional
     @RolesAllowed({"ADMIN", "NON_ADMIN"})
