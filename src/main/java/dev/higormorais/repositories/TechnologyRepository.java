@@ -52,4 +52,11 @@ public class TechnologyRepository implements PanacheRepositoryBase<Technology, I
 
     }
 
+    public List<Technology> findByTechnologiesByIds(List<Integer> ids) {
+        final String JPQL = "SELECT t FROM Technology t WHERE t.id IN :ids";
+        Parameters parameters = Parameters.with("ids", ids);
+
+        return this.list(JPQL, parameters);
+    }
+
 }

@@ -4,6 +4,8 @@ package dev.higormorais.utils;
 import dev.higormorais.entities.Technology;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /*
 * Classe utilitária para conversão simples de um tipo de dado para outro...
@@ -40,6 +42,13 @@ public class Converter {
 
     public static String technologyToString(Technology technology) {
         return technology.getName();
+    }
+
+    public static List<Integer> technologiesToIds(List<Technology> technologies) {
+        return technologies
+                .stream()
+                .map(technology -> technology.getId())
+                .collect(Collectors.toList());
     }
 
 }

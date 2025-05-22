@@ -3,15 +3,16 @@ package dev.higormorais.repositories;
 import java.util.List;
 
 import dev.higormorais.entities.Course;
+import dev.higormorais.entities.Technology;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
-import static dev.higormorais.utils.GeneratedJPQL.*;
+import static dev.higormorais.utils.Converter.technologiesToIds;
 import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 @ApplicationScoped
@@ -23,6 +24,9 @@ public class CourseRepository implements PanacheRepositoryBase<Course, Integer> 
     @Inject
     @ConfigProperty(name = "registro.inexistente")
     private String messageNotFound;
+
+    @Inject
+    private TechnologyRepository technologyRepository;
 
     public List<Course> findAll(int offset, int limit) {
 
@@ -55,16 +59,24 @@ public class CourseRepository implements PanacheRepositoryBase<Course, Integer> 
 
     public void update(Course course) {
 
-        String urlImageQuery = addQuery(course.getUrlImage(), "c");
+        List<Integer> idsTechnologies = technologiesToIds(course.getTechnologies());
 
-        String jpql = "UPDATE Course c SET c.name = :name," + urlImageQuery + " c.urlCertificate = :urlCertificate, " +
-                "c.importanceLevel = :importanceLevel WHERE c.id = :id";
+        List<Technology> technologies = technologyRepository.findByTechnologiesByIds(idsTechnologies);
 
-        Parameters parameters = excludeImageIfNull(course.parametersValue(), course.getUrlImage());
+        Course managedCourse = this
+                .findByIdOptional(course.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado."));
 
-        int rowsAffected = this.update(jpql, parameters);
+        managedCourse.setName((course.getName()));
+        managedCourse.setUrlCertificate(course.getUrlCertificate());
+        managedCourse.setImportanceLevel(course.getImportanceLevel());
+        managedCourse.setTechnologies(technologies);
 
-        throwExceptionNotFound(rowsAffected, messageNotFound);
+        if(course.getUrlImage() != null) {
+            managedCourse.setUrlImage(course.getUrlImage());
+        }
+
+        this.entityManager.merge(managedCourse);
     }
 
 }

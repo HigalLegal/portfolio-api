@@ -4,16 +4,15 @@ package dev.higormorais.repositories;
 import java.util.List;
 
 import dev.higormorais.entities.Project;
+import dev.higormorais.entities.Technology;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
-import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
-import static dev.higormorais.utils.GeneratedJPQL.addQuery;
-import static dev.higormorais.utils.GeneratedJPQL.excludeImageIfNull;
+import static dev.higormorais.utils.Converter.technologiesToIds;
 import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 
 
@@ -27,6 +26,9 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
     @ConfigProperty(name = "registro.inexistente")
     private String messageNotFound;
 
+    @Inject
+    private TechnologyRepository technologyRepository;
+
     public List<Project> findAll(int offset, int limit) {
 
         limit = idealLimitReturn(limit, offset, (int) this.count());
@@ -39,17 +41,23 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
 
     public void update(Project project) {
 
-        String urlImageQuery = addQuery(project.getUrlImage(), "p");
+        List<Integer> idsTechnologies = technologiesToIds(project.getTechnologiesWorked());
 
-        String jpql = "UPDATE Project p SET p.description = :description, p.urlRepository = :urlRepository," +
-                urlImageQuery + " p.importanceLevel = :importanceLevel, " +
-                "WHERE p.id = :id";
+        List<Technology> technologies = technologyRepository.findByTechnologiesByIds(idsTechnologies);
 
-        Parameters parameters = excludeImageIfNull(project.parametersValue(), project.getUrlImage());
+        Project managedProject = this
+                .findByIdOptional(project.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado."));
 
-        int rowsAffected = this.update(jpql, parameters);
+        managedProject.setDescription(project.getDescription());
+        managedProject.setUrlRepository(project.getUrlRepository());
+        managedProject.setImportanceLevel(project.getImportanceLevel());
 
-        throwExceptionNotFound(rowsAffected, messageNotFound);
+        if(project.getUrlImage() != null) {
+            managedProject.setUrlImage(project.getUrlImage());
+        }
+
+        this.entityManager.merge(managedProject);
 
     }
 
