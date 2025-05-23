@@ -26,7 +26,7 @@ public class Experience {
     @Column(nullable = false, name = "company_name")
     private String companyName;
 
-    @Column(nullable = false, name = "description_experience")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
@@ -88,7 +88,7 @@ public class Experience {
     }
 
     public void setTechnologiesWorked(List<Technology> technologiesWorked) {
-        this.technologiesWorked.addAll(technologiesWorked);
+        this.technologiesWorked = technologiesWorked;
     }
 
     public List<Object> values() {
@@ -123,6 +123,18 @@ public class Experience {
 
     public static ExperienceBuilder builder() {
         return ExperienceBuilder.getInstance();
+    }
+
+    @Override
+    public String toString() {
+        return "Experience{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", description='" + description + '\'' +
+                ", beginning=" + beginning +
+                ", end=" + end +
+                ", technologiesWorked=" + technologiesWorked +
+                '}';
     }
 
 }

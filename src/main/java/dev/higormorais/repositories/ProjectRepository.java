@@ -47,7 +47,7 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
 
         Project managedProject = this
                 .findByIdOptional(project.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado."));
 
         managedProject.setDescription(project.getDescription());
         managedProject.setUrlRepository(project.getUrlRepository());

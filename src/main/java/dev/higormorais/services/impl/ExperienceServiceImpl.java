@@ -51,7 +51,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     @Override
     public void create(ExperienceRequest experienceRequest) {
-        experienceRepository.persist(experienceMapper.toEntitie(experienceRequest));
+        experienceRepository.insert(experienceMapper.toEntitie(experienceRequest));
     }
 
     @Override

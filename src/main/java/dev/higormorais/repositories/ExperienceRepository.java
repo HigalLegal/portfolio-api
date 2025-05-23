@@ -1,6 +1,7 @@
 package dev.higormorais.repositories;
 
 
+import static dev.higormorais.utils.Converter.technologiesToIds;
 import static dev.higormorais.utils.ExceptionUtil.throwExceptionNotFound;
 import static dev.higormorais.utils.GeneratedJPQL.mapToParameters;
 import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
@@ -8,6 +9,8 @@ import static dev.higormorais.utils.IntegerNumberOperations.idealLimitReturn;
 import java.util.List;
 
 import dev.higormorais.entities.Experience;
+import dev.higormorais.entities.Project;
+import dev.higormorais.entities.Technology;
 import dev.higormorais.exceptions.DateException;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Parameters;
@@ -28,6 +31,9 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
     @ConfigProperty(name = "registro.inexistente")
     private String messageNotFound;
 
+    @Inject
+    private TechnologyRepository technologyRepository;
+
     public List<Experience> findAll(int offset, int limit) {
 
         limit = idealLimitReturn(limit, offset, (int) this.count());
@@ -47,14 +53,21 @@ public class ExperienceRepository implements PanacheRepositoryBase<Experience, I
 
     public void update(Experience experience) {
 
-        throwDateException(experience);
+        List<Integer> idsTechnologies = technologiesToIds(experience.getTechnologiesWorked());
 
-        if(this.isPersistent(experience)) {
-            entityManager.merge(experience);
-        } else {
-            throw new EntityNotFoundException(messageNotFound);
-        }
+        List<Technology> technologies = technologyRepository.findByTechnologiesByIds(idsTechnologies);
 
+        Experience managedExperience = this
+                .findByIdOptional(experience.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Experiência não encontrada."));
+
+        managedExperience.setCompanyName(experience.getCompanyName());
+        managedExperience.setDescription(experience.getDescription());
+        managedExperience.setBeginning(experience.getBeginning());
+        managedExperience.setEnd(experience.getEnd());
+        managedExperience.setTechnologiesWorked(technologies);
+
+        this.entityManager.merge(managedExperience);
     }
 
     private void throwDateException(Experience experience) {
