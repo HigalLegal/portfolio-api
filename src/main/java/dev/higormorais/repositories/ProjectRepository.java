@@ -52,6 +52,7 @@ public class ProjectRepository implements PanacheRepositoryBase<Project, Integer
         managedProject.setDescription(project.getDescription());
         managedProject.setUrlRepository(project.getUrlRepository());
         managedProject.setImportanceLevel(project.getImportanceLevel());
+        managedProject.setTechnologiesWorked(technologies);
 
         if(project.getUrlImage() != null) {
             managedProject.setUrlImage(project.getUrlImage());

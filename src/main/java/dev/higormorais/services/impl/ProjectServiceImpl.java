@@ -81,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setId(id);
         project.setUrlImage(urlImage);
 
-        projectRepository.persist(project);
+        projectRepository.update(project);
     }
 
     @Override

@@ -87,7 +87,7 @@ public class Project {
     }
 
     public void setTechnologiesWorked(List<Technology> technologiesWorked) {
-        this.technologiesWorked.addAll(technologiesWorked);
+        this.technologiesWorked = technologiesWorked;
     }
 
     public List<Object> values() {
