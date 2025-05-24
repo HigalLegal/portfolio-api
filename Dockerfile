@@ -18,4 +18,4 @@ RUN chmod 775 /app/application
 
 EXPOSE 8080
 
-CMD ["./application", "-Dquarkus.profile=dev"]
+CMD ["./application", "-Dquarkus.profile=prod"]
