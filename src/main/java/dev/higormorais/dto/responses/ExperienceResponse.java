@@ -1,11 +1,13 @@
 package dev.higormorais.dto.responses;
 
 import dev.higormorais.dto.responses.builders.ExperienceResponseBuilder;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@RegisterForReflection
 public class ExperienceResponse {
 
     private Integer id;

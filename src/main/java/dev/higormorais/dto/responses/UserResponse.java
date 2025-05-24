@@ -1,7 +1,9 @@
 package dev.higormorais.dto.responses;
 
 import dev.higormorais.dto.responses.builders.UserResponseBuilder;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public class UserResponse {
 
     private Integer id;

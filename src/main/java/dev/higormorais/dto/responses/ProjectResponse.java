@@ -1,10 +1,12 @@
 package dev.higormorais.dto.responses;
 
 import dev.higormorais.dto.responses.builders.ProjectResponseBuilder;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RegisterForReflection
 public class ProjectResponse {
 
     private Integer id;

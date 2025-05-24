@@ -5,15 +5,11 @@ import dev.higormorais.entities.KeyImgBb;
 import dev.higormorais.repositories.KeyImgBbRepository;
 import dev.higormorais.services.UserService;
 import io.quarkus.runtime.Startup;
-import jakarta.annotation.PostConstruct;
+import io.quarkus.runtime.StartupEvent;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 @Startup
 @Singleton
@@ -25,18 +21,15 @@ public class AppInitializer {
     @Inject
     private KeyImgBbRepository keyImgBbRepository;
 
-    @PostConstruct
-    public void init() {
-        String datasLine = readUserTxt();
-        String[] datas = datasLine.split(",");
+    public void onStart(@Observes StartupEvent event) {
+        String email = System.getenv("INITIAL_USER_EMAIL");
+        String password = System.getenv("INITIAL_USER_PASSWORD");
+        String apiKey = System.getenv("INITIAL_API_KEY");
 
-        String email = datas[0];
-        String password = datas[1];
-        String key = datas[2];
-
-        this.insertInitialUser(email, password);
-        this.insertKeyApiImage(key);
+        insertInitialUser(email, password);
+        insertKeyApiImage(apiKey);
     }
+
 
     @Transactional
     void insertInitialUser(String email, String password) {
@@ -62,18 +55,5 @@ public class AppInitializer {
             this.keyImgBbRepository.persist(new KeyImgBb(key));
         }
     }
-
-    private String readUserTxt() {
-        try (
-                InputStream inputStream = getClass().getClassLoader().getResourceAsStream("user.txt");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-        ) {
-            return reader.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
 
 }

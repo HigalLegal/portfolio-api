@@ -1,5 +1,6 @@
+# Ignora tudo por padrão
 *
-!build/*-runner
-!build/*-runner.jar
-!build/lib/*
-!build/quarkus-app/*
+
+# Permite os arquivos necessários
+!build/
+!src/main/resources/

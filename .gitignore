@@ -40,4 +40,4 @@ nb-configuration.xml
 
 # security
 *.pem
-src/main/resources/user.txt
+.env

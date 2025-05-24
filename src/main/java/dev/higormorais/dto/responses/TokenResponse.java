@@ -1,5 +1,8 @@
 package dev.higormorais.dto.responses;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public class TokenResponse {
 
     private String jwt;
