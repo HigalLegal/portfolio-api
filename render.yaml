@@ -33,15 +33,12 @@ services:
           name: portfolio-db
           property: password
       - key: PUBLIC_KEY_PEM
-        sync: false  # Será configurado manualmente
+        sync: false
       - key: PRIVATE_KEY_PEM
         sync: false
       - key: INITIAL_API_KEY
         sync: false
-      - key: QUARKUS_HTTP_CORS_ORIGINS
-        value: ${CORS_ORIGINS}  # Configure no painel se precisar
-
-    # Deploy hooks (opcional)
+        
     deployHooks:
       postDeploy:
         - curl -X GET http://localhost:8080/q/health/
