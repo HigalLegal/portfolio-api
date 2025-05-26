@@ -3,9 +3,23 @@ services:
     name: portfolio-api
     runtime: docker
     dockerfile: Dockerfile
-    buildCommand: ./gradlew clean build -Dquarkus.package.type=native
+    # Build command simplificado (o build já está no Dockerfile)
+    buildCommand: echo "Build via Dockerfile multistage"
     env: docker
+    plan: free
+    disk:
+      name: data
+      mountPath: /app/data
+      sizeGB: 1
+
     healthCheckPath: /q/health/live
+    healthCheckTimeoutSeconds: 10
+    healthCheckIntervalSeconds: 30
+
+    numInstances: 1
+    cpu: 0.5
+    memoryMB: 512
+
     envVars:
       - key: QUARKUS_PROFILE
         value: prod
@@ -18,14 +32,15 @@ services:
           name: portfolio-db
           property: password
       - key: PUBLIC_KEY_PEM
-        sync: false
+        sync: false  # Será configurado manualmente
       - key: PRIVATE_KEY_PEM
         sync: false
       - key: INITIAL_API_KEY
         sync: false
+      - key: QUARKUS_HTTP_CORS_ORIGINS
+        value: ${CORS_ORIGINS}  # Configure no painel se precisar
 
-  - type: postgres
-    name: portfolio-db
-    plan: free
-    databaseName: portfolioDB
-    user: postgres
+    # Deploy hooks (opcional)
+    deployHooks:
+      postDeploy:
+        - curl -X GET http://localhost:8080/q/health/
