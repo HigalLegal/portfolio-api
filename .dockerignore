@@ -1,6 +1,4 @@
-# Ignora tudo por padrão
-*
-
-# Permite os arquivos necessários
-!build/
-!src/main/resources/
+.git
+Dockerfile
+.dockerignore
+README.md

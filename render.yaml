@@ -3,8 +3,9 @@ services:
     name: portfolio-api
     runtime: docker
     dockerfile: Dockerfile
-    # Build command simplificado (o build já está no Dockerfile)
-    buildCommand: echo "Build via Dockerfile multistage"
+    buildCommand: |
+      ./gradlew clean quarkusBuild
+      cp src/main/resources/*.properties build/
     env: docker
     plan: free
     disk:
