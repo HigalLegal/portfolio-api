@@ -1,4 +1,6 @@
-.git
-Dockerfile
-.dockerignore
-README.md
+# Ignora tudo por padrão
+*
+
+# Permite os arquivos necessários
+!build/
+!src/main/resources/
