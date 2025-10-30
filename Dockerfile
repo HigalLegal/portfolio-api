@@ -1,7 +1,7 @@
 # ========================
 # Etapa 1 — Compila o binário nativo
 # ========================
-FROM quay.io/quarkus/ubi-quarkus-native-image:latest AS build
+FROM quay.io/quarkus/ubi-quarkus-native-image:3.6.4 AS build
 WORKDIR /workspace
 
 # Copia todo o projeto
