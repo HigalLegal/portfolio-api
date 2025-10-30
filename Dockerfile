@@ -1,7 +1,7 @@
 # ========================
 # Etapa 1 — Compila o binário nativo
 # ========================
-FROM quay.io/quarkus/ubi-quarkus-mandrel:23.1-java21 AS build
+FROM quay.io/quarkus/ubi-quarkus-mandrel-builder-image:24.1-java21 AS build
 WORKDIR /workspace
 
 # Copia os arquivos de build primeiro (para melhor cache)
