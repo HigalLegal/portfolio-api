@@ -1,7 +1,7 @@
 services:
   - type: web
     name: portfolio-api
-    env: native
+    env: docker
     buildCommand: ./gradlew build -Dquarkus.package.type=native --no-daemon
     startCommand: ./build/portfolio-api-*-runner
     plan: free

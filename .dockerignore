@@ -1,6 +1,11 @@
 # Ignora tudo por padrão
 *
 
-# Permite os arquivos necessários
-!build/
-!src/main/resources/
+# Permite o que é necessário pro build
+!gradlew
+!gradlew.bat
+!gradle/
+!build.gradle
+!settings.gradle
+!src/
+!gradle.properties
