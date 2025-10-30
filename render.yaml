@@ -1,44 +1,10 @@
 services:
   - type: web
     name: portfolio-api
-    runtime: docker
-    dockerfile: Dockerfile
-    buildCommand: |
-      ./gradlew clean quarkusBuild
-      cp src/main/resources/*.properties build/
     env: docker
+    region: oregon
     plan: free
-    disk:
-      name: data
-      mountPath: /app/data
-      sizeGB: 1
-
-    healthCheckPath: /q/health/live
-    healthCheckTimeoutSeconds: 10
-    healthCheckIntervalSeconds: 30
-
-    numInstances: 1
-    cpu: 0.5
-    memoryMB: 512
-
-    envVars:
-      - key: QUARKUS_PROFILE
-        value: prod
-      - key: QUARKUS_DATASOURCE_JDBC_URL
-        value: jdbc:postgresql://portfolio-db:5432/portfolioDB
-      - key: QUARKUS_DATASOURCE_USERNAME
-        value: postgres
-      - key: QUARKUS_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: portfolio-db
-          property: password
-      - key: PUBLIC_KEY_PEM
-        sync: false
-      - key: PRIVATE_KEY_PEM
-        sync: false
-      - key: INITIAL_API_KEY
-        sync: false
-        
-    deployHooks:
-      postDeploy:
-        - curl -X GET http://localhost:8080/q/health/
+    buildCommand: |
+      ./gradlew build -Dquarkus.package.type=native --no-daemon
+      docker build -t portfolio-api .
+    startCommand: ./application
