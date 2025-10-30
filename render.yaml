@@ -1,10 +1,8 @@
 services:
   - type: web
     name: portfolio-api
-    env: docker
-    region: oregon
+    env: native
+    buildCommand: ./gradlew build -Dquarkus.package.type=native --no-daemon
+    startCommand: ./build/portfolio-api-*-runner
     plan: free
-    buildCommand: |
-      ./gradlew build -Dquarkus.package.type=native --no-daemon
-      docker build -t portfolio-api .
-    startCommand: ./application
+    region: oregon
