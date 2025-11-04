@@ -8,8 +8,8 @@ import dev.higormorais.dto.responses.ArticleResponse;
 import dev.higormorais.entities.Article;
 import dev.higormorais.repositories.ArticleRepository;
 import dev.higormorais.services.ArticleService;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityNotFoundException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
